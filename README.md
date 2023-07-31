@@ -1,5 +1,8 @@
 ## Ppiyong Backend Repository
 
+### Spring Boot 3.1.0
+### Java 17
+
 ## Commit Message Convention
 
 |    Type     | Description  |
