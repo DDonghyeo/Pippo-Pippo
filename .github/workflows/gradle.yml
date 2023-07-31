@@ -18,6 +18,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
+    #Setting yml
+    - name: make application.yml
+      run: |
+        cd ./src/main/resources
+        touch ./application.yml
+        echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+        
+        
     # Spring Boot Build
     - name: Spring Boot Build
       run: ./gradlew clean build -x test
