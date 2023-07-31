@@ -53,4 +53,4 @@ jobs:
         script: |
           sudo docker stop ${{ secrets.DOCKERHUB_IMAGENAME }}
           sudo docker rm ${{ secrets.DOCKERHUB_IMAGENAME }}
-          sudo docker run -it -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
+          sudo docker run -it -d -p 8080:8080 --name ${{ secrets.DOCKERHUB_IMAGENAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
