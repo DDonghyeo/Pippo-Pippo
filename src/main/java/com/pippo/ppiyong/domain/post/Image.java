@@ -15,12 +15,13 @@ import lombok.NoArgsConstructor;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id")
     private Long id;
 
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "comment_id")
+    @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
 }

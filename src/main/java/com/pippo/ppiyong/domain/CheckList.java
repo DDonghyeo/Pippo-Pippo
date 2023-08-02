@@ -15,11 +15,12 @@ import java.util.List;
 public class CheckList {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "check_list_id")
     private Long id;
 
     private String title;
 
-    @OneToMany(mappedBy = "task_id")
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "checkList")
+    private List<Task> task;
 }

@@ -10,10 +10,12 @@ import lombok.Getter;
 public class CommentHate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_hate_id")
     private Long id;
 
-    @OneToOne(mappedBy = "comment_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
 
     @ManyToOne(fetch = FetchType.LAZY)

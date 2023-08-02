@@ -18,7 +18,8 @@ import java.util.List;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,6 +28,12 @@ public class Comment {
 
     private String content;
 
-    @OneToMany(mappedBy = "image_id")
+    @OneToMany(mappedBy = "comment")
     private List<Image> imageList;
+
+    @OneToMany(mappedBy = "comment")
+    private List<CommentHate> haters;
+
+    @OneToMany(mappedBy = "comment")
+    private List<CommentLike> likers;
 }
