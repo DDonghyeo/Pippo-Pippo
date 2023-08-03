@@ -18,13 +18,25 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: Copy Secret
+      env:
+        OCCUPY_SECRET: ${{ secrets.APPLICATION_YML }}
+        OCCUPY_SECRET_DIR: src/main/resources
+        OCCUPY_SECRET_TEST_DIR: src/test/resources
+        OCCUPY_SECRET_DIR_FILE_NAME: application.yml
+      run: echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME && 
+           echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_TEST_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+
+
+
     
-    #Setting yml
-    - name: make application.yml
-      run: |
-        cd ./src/main/resources
-        touch ./application.yml
-        echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+    # #Setting yml
+    # - name: make application.yml
+    #   run: |
+    #     cd ./src/main/resources
+    #     touch ./application.yml
+    #     echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
     
     #gradlew chmod
     - name: Grant execute permission for gradlew
