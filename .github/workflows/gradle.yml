@@ -19,12 +19,18 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # #Setting yml
-    - name: make application.yml
+    - name: Set YML
       run: |
-        cd ./src/main/resources
-        touch ./application.yml
-        echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+        echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+        find src
+
+
+    # #Setting yml
+    # - name: make application.yml
+    #   run: |
+    #     cd ./src/main/resources
+    #     touch ./application.yml
+    #     echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
     
     #gradlew chmod
     - name: Grant execute permission for gradlew
