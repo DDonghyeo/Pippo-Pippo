@@ -23,4 +23,7 @@ public class CheckList {
 
     @OneToMany(mappedBy = "checkList")
     private List<Task> task;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 }
