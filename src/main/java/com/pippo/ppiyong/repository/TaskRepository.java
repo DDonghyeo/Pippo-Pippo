@@ -9,4 +9,6 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<List<Task>> findAllByCheckList_Id(Long check_list_id);
+
+    void deleteAllByCheckList_Id(Long check_list_id);
 }

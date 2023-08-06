@@ -9,4 +9,7 @@ public interface CheckListService {
     List<CheckListDto.Response> getCheckList();
 
     List<CheckListDto.Response> createCheckList(CheckListDto.Request request);
+
+    //체크리스트 삭제
+    List<CheckListDto.Response> deleteCheckList(Long checkListId);
 }

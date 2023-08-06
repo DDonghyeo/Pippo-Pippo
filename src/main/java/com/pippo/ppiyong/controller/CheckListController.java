@@ -28,6 +28,11 @@ public class CheckListController {
         return ResponseEntity.ok(checkListService.createCheckList(req));
     }
 
+    //체크리스트 삭제
+    @DeleteMapping("/{checkListId}")
+    public ResponseEntity<?> deleteCheckList(@PathVariable Long checkListId) {
+        return ResponseEntity.ok(checkListService.deleteCheckList(checkListId));
+    }
 
 
 

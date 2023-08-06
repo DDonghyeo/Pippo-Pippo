@@ -1,6 +1,5 @@
 package com.pippo.ppiyong.service;
 
-import com.pippo.ppiyong.auth.Authority;
 import com.pippo.ppiyong.domain.CheckList;
 import com.pippo.ppiyong.domain.Task;
 import com.pippo.ppiyong.domain.User;
@@ -10,11 +9,6 @@ import com.pippo.ppiyong.exception.ErrorCode;
 import com.pippo.ppiyong.repository.CheckListRepository;
 import com.pippo.ppiyong.repository.TaskRepository;
 import com.pippo.ppiyong.repository.UserRepository;
-import com.pippo.ppiyong.type.Category;
-import com.pippo.ppiyong.type.Region;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +54,23 @@ s
         }
 
     }
+
+    //체크리스트 삭제
+    @Override
+    public List<CheckListDto.Response> deleteCheckList(Long checkListId) {
+        try {
+            checkListRepository.deleteById(checkListId);
+            taskRepository.deleteAllByCheckList_Id(checkListId);
+            return getCheckList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomException(ErrorCode.SERVER_ERROR);
+        }
+
+    }
+
+
+
 
 
     private List<CheckListDto.Response> getCheckListResponse(List<CheckList> checkList) {
