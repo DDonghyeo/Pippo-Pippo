@@ -33,7 +33,6 @@ public class CheckListServiceImpl implements CheckListService{
     public List<CheckListDto.Response> getCheckList(){
         //TODO : 유저 정보 가져오기
         Long user_id = 1L;
-s
         return getCheckListResponse(checkListRepository.findAllByUser_Id(user_id));
     }
 
