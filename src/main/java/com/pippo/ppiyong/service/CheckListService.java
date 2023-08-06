@@ -12,4 +12,7 @@ public interface CheckListService {
 
     //체크리스트 삭제
     List<CheckListDto.Response> deleteCheckList(Long checkListId);
+
+    //체크리스트 수정
+    List<CheckListDto.Response> updateCheckList(Long checkListId, CheckListDto.Request request);
 }

@@ -35,5 +35,12 @@ public class CheckListController {
     }
 
 
+    //체크리스트 수정
+    @PutMapping("/{checkListId}")
+    public ResponseEntity<?> updateCheckList(@PathVariable Long checkListId, @RequestBody CheckListDto.Request req) {
+        return ResponseEntity.ok(checkListService.updateCheckList(checkListId, req));
+    }
+
+
 
 }

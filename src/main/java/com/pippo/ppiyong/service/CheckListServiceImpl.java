@@ -70,6 +70,38 @@ s
     }
 
 
+    //체크리스트 수정
+    @Override
+    public List<CheckListDto.Response> updateCheckList(Long checkListId, CheckListDto.Request request) {
+        CheckList checkList = checkListRepository.findById(checkListId).orElseThrow(
+                () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
+        );
+
+        if (!checkList.getTitle().equals(request.getTitle())) {
+           checkList.updateTitle(request.getTitle());
+            checkListRepository.save(checkList);
+        }
+
+        List<CheckListDto.TaskRequest> task_req = request.getTask();
+
+        List<Task> tasks = taskRepository.findAllByCheckList_Id(checkListId).orElseThrow(
+                () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
+        );
+
+        tasks.stream().map(task -> {
+            String content = task_req.get(tasks.indexOf(task)).getContent();
+            if (!task.getContent().equals(content)) {
+                task.updateContent(content);
+            }
+            return task;
+        }).collect(Collectors.toList());
+
+        taskRepository.saveAll(tasks);
+
+        return getCheckList();
+
+    }
+
 
 
 

@@ -26,6 +26,8 @@ public class CheckListDto {
 
     }
 
+    @Getter
+    @Builder
     public static class TaskRequest{
         String content;
 
