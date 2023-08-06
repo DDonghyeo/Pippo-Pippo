@@ -3,14 +3,13 @@ package com.pippo.ppiyong.dto;
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.type.Type;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@Getter @Setter
-public class PostResponseDto {
+@Getter
+public class HomePostResponseDto {
+
+    private Long id;
 
     private String from;
 
@@ -20,13 +19,14 @@ public class PostResponseDto {
 
     private LocalDateTime time;
 
-    private List<CommentResponseDto> comment;
+    private int comment;
 
-    public PostResponseDto(Post post) {
+    public HomePostResponseDto(Post post) {
+        this.id = post.getId();
         this.from = post.getTitle();
         this.category = post.getType();
         this.content = post.getContent();
         this.time = post.getCreatedAt();
-        this.comment = post.getCommentList().stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        this.comment = post.getCommentList().size();
     }
 }

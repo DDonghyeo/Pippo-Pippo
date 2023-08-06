@@ -3,6 +3,8 @@ package com.pippo.ppiyong.service;
 import com.pippo.ppiyong.domain.DisasterMessage;
 import com.pippo.ppiyong.domain.LatestInfo;
 import com.pippo.ppiyong.domain.post.Post;
+import com.pippo.ppiyong.dto.HomePostResponseDto;
+import com.pippo.ppiyong.dto.HomeResponseDto;
 import com.pippo.ppiyong.repository.LatestInfoRepository;
 import com.pippo.ppiyong.repository.PostRepository;
 import com.pippo.ppiyong.type.Region;
@@ -10,6 +12,8 @@ import com.pippo.ppiyong.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +25,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     LatestInfoRepository latestInfoRepository;
 
+    @Override
     public void save(DisasterMessage message) {
         try {
             String msg = message.getMsg();
@@ -41,6 +46,44 @@ public class PostServiceImpl implements PostService {
         return Optional.empty();
     }
 
+    public HomeResponseDto findPosts(Region region){
+        try {
+            List<HomePostResponseDto> postList = new ArrayList<>(postRepository.findByRegion(region).stream().map(HomePostResponseDto::new).toList());
+            postList.addAll(postRepository.findByRegion(Region.ALL).stream().map(HomePostResponseDto::new).toList());
+            postList.sort((p1, p2) -> (int) (p1.getId() - p2.getId()));
+
+            List<HomePostResponseDto> weather = new ArrayList<>();
+            List<HomePostResponseDto> earthquake = new ArrayList<>();
+            List<HomePostResponseDto> civil = new ArrayList<>();
+            List<HomePostResponseDto> lost = new ArrayList<>();
+
+            for(HomePostResponseDto post : postList) {
+                if(post.getCategory() == Type.RAIN || post.getCategory() == Type.HOT || post.getCategory() == Type.SNOW || post.getCategory() == Type.WIND) {
+                    if(weather.size() < 20)
+                        weather.add(post);
+                } else if(post.getCategory() == Type.EARTHQUAKE) {
+                    if(earthquake.size() < 20)
+                        earthquake.add(post);
+                } else if(post.getCategory() == Type.CIVIL) {
+                    if(civil.size() < 20)
+                        civil.add(post);
+                } else if(post.getCategory() == Type.LOST){
+                    if(lost.size() < 20)
+                        lost.add(post);
+                }
+                if(weather.size() + earthquake.size() + civil.size() + lost.size() >= 80)
+                    break;
+                //기타 넣을까 말까
+            }
+
+            return new HomeResponseDto(weather, earthquake, civil, lost);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean isUpdated(String id) {
         try {
             Optional<LatestInfo> latestInfo = latestInfoRepository.findById(1L);
