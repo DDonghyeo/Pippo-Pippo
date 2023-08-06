@@ -23,4 +23,11 @@ public class CheckList {
 
     @OneToMany(mappedBy = "checkList")
     private List<Task> task;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
 }

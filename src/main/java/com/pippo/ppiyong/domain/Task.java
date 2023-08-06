@@ -27,4 +27,8 @@ public class Task {
     @JoinColumn(name = "checkList_id", nullable = false)
     private CheckList checkList;
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
 }
