@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 @RequiredArgsConstructor
 public enum Region {
@@ -16,19 +19,32 @@ public enum Region {
     ULSAN("울산광역시"),
     SEJONG("세종특별자치시"),
     GYEONGGI("경기도"),
-    GANGWON("강원도"),
+    GANGWON("강원특별자치도"),
     CHUNGCHEONGBUKDO("충청북도"),
     CHUNGCHEONGNAMDO("충청남도"),
     JEOLLABUKDO("전라북도"),
     JEOLLANAMDO("전라남도"),
     GYEONGSANGBUKDO("경상북도"),
     GYEONGSANGNAMDO("경상남도"),
-    JEJU("제주특별자치도");
+    JEJU("제주특별자치도"),
+    ALL("전국");
 
     private final String name;
 
     @JsonValue
     public String getName() {
         return name;
+    }
+
+    private static final Map<String, Region> stringToRegionMap = new HashMap<>();
+
+    static {
+        for(Region region : Region.values()) {
+            stringToRegionMap.put(region.name, region);
+        }
+    }
+
+    public static Region fromString(String name) {
+        return stringToRegionMap.get(name);
     }
 }
