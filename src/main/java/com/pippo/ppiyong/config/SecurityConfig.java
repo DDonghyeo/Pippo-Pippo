@@ -35,6 +35,7 @@ public class SecurityConfig {
                 // 그 외 모든 요청 (any) 에 대해서는 인증 요구
                 .authorizeHttpRequests((authorizeRequest) ->
                         authorizeRequest
+                                .requestMatchers("/**").permitAll() //임시허용
                                 //아래 링크는 모든 통신 허용
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/api/usage").permitAll()
