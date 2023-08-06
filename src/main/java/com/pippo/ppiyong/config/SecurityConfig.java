@@ -35,7 +35,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequest) ->
                         authorizeRequest
                                 //아래 링크는 모든 통신 허용
-                                .requestMatchers("/login").permitAll()
+                                .requestMatchers(
+                                        "/home",
+                                        "/shelter",
+                                        "/post",
+                                        "/user/register",
+                                        "/user/login",
+                                        "/user/emailCheck",
+                                        "/user/verification",
+                                        "/user/findPw").permitAll()
                                 //외에 다른 Request는 인증되어야 함
                                 .anyRequest().authenticated()
                 )
