@@ -102,6 +102,13 @@ s
 
     }
 
+    //작업 삭제
+    @Override
+    public List<CheckListDto.Response> deleteTask(Long taskId) {
+        taskRepository.deleteById(taskId);
+        return getCheckList();
+    }
+
 
 
 

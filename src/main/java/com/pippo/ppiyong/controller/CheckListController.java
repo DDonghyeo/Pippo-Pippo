@@ -41,6 +41,10 @@ public class CheckListController {
         return ResponseEntity.ok(checkListService.updateCheckList(checkListId, req));
     }
 
-
+    //작업 삭제
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long taskId) {
+        return ResponseEntity.ok(checkListService.deleteTask(taskId));
+    }
 
 }

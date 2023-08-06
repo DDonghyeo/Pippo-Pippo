@@ -15,4 +15,7 @@ public interface CheckListService {
 
     //체크리스트 수정
     List<CheckListDto.Response> updateCheckList(Long checkListId, CheckListDto.Request request);
+
+    //작업 삭제
+    List<CheckListDto.Response> deleteTask(Long taskId);
 }
