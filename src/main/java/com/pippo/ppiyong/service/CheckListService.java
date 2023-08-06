@@ -7,4 +7,6 @@ import java.util.List;
 public interface CheckListService {
     //체크리스트 조회
     List<CheckListDto.Response> getCheckList();
+
+    List<CheckListDto.Response> createCheckList(CheckListDto.Request request);
 }

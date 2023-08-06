@@ -1,12 +1,11 @@
 package com.pippo.ppiyong.controller;
 
+import com.pippo.ppiyong.dto.CheckListDto;
 import com.pippo.ppiyong.service.CheckListService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -22,6 +21,14 @@ public class CheckListController {
     public ResponseEntity<?> getCheckLists() {
         return ResponseEntity.ok(checkListService.getCheckList());
     }
+
+    //체크리스트 생성
+    @PostMapping("")
+    public ResponseEntity<?> createCheckList(@RequestBody CheckListDto.Request req) {
+        return ResponseEntity.ok(checkListService.createCheckList(req));
+    }
+
+
 
 
 }
