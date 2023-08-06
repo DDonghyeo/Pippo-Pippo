@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +37,18 @@ public class SecurityConfig {
                         authorizeRequest
                                 //아래 링크는 모든 통신 허용
                                 .requestMatchers("/login").permitAll()
+                                .requestMatchers("/api/usage").permitAll()
+                                .requestMatchers(/* swagger v2 */
+                                        "/v2/api-docs",
+                                        "/swagger-resources",
+                                        "/swagger-resources/**",
+                                        "/configuration/ui",
+                                        "/configuration/security",
+                                        "/swagger-ui.html",
+                                        "/webjars/**",
+                                        /* swagger v3 */
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**").permitAll()
                                 //외에 다른 Request는 인증되어야 함
                                 .anyRequest().authenticated()
                 )
