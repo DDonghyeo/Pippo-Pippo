@@ -37,7 +37,8 @@ public class SecurityConfig {
                                 //아래 링크는 모든 통신 허용
                                 .requestMatchers("/login").permitAll()
                                 //외에 다른 Request는 인증되어야 함
-                                .anyRequest().authenticated()
+                                //.anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
 
                 // Rest 방식으로 로그인을 할 것이므로 form 로그인 사용 안함
