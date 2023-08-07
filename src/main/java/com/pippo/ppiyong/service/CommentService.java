@@ -17,4 +17,8 @@ public interface CommentService {
     void updateLike(Comment comment, User user);
 
     void updateHate(Comment comment, User user);
+
+    boolean isLike(Comment comment, User user);
+
+    boolean isHate(Comment comment, User user);
 }

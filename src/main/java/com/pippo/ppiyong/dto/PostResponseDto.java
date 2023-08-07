@@ -29,4 +29,12 @@ public class PostResponseDto {
         this.time = post.getCreatedAt();
         this.comment = post.getCommentList().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
+
+    public PostResponseDto(Post post, List<CommentResponseDto> commentList) {
+        this.from = post.getTitle();
+        this.category = post.getType();
+        this.content = post.getContent();
+        this.time = post.getCreatedAt();
+        this.comment = commentList;
+    }
 }

@@ -92,4 +92,34 @@ public class CommentServiceImpl implements CommentService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean isLike(Comment comment, User user) {
+        try {
+            List<CommentLike> commentLikeList = commentLikeRepository.findByCommentId(comment.getId());
+            for(CommentLike commentLike : commentLikeList) {
+                if(commentLike.getUser().equals(user)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isHate(Comment comment, User user) {
+        try {
+            List<CommentHate> commentHateList = commentHateRepository.findByCommentId(comment.getId());
+            for(CommentHate commentHate : commentHateList) {
+                if(commentHate.getUser().equals(user)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
