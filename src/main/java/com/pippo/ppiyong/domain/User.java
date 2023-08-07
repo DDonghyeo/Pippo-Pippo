@@ -1,6 +1,7 @@
 package com.pippo.ppiyong.domain;
 
 import com.pippo.ppiyong.auth.Authority;
+import com.pippo.ppiyong.dto.RegisterRequestDto;
 import com.pippo.ppiyong.type.BaseTimeEntity;
 import com.pippo.ppiyong.type.Category;
 import com.pippo.ppiyong.type.Region;
@@ -39,6 +40,20 @@ public class User extends BaseTimeEntity {
     private Category category;
 
     private List<Category> sub_categories;
+
+    public User(String email, String password, String nickName, Region region) {
+        this.email = email;
+        this.password = password;
+        this.nickName = nickName;
+        this.region = region;
+    }
+
+    public User(RegisterRequestDto registerRequestDto) {
+        this.email = registerRequestDto.getEmail();
+        this.password = registerRequestDto.getPassword();
+        this.nickName = registerRequestDto.getNickName();
+        this.region = registerRequestDto.getRegion();
+    }
 
     public User encodePassword(PasswordEncoder passwordEncoder){
         password = passwordEncoder.encode(password);
