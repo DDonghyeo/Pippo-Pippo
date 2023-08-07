@@ -11,6 +11,7 @@ import com.pippo.ppiyong.repository.CommentLikeRepository;
 import com.pippo.ppiyong.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +29,25 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentHateRepository commentHateRepository;
 
-    public void save(CommentRequestDto commentRequestDto, User user, Post post) {
+    @Autowired
+    S3UploaderService uploaderService;
+
+    @Override
+    public void save(CommentRequestDto commentRequestDto, MultipartFile file, User user, Post post) {
         try {
-            commentRepository.save(new Comment(commentRequestDto, user, post));
+            String imageUrl;
+            if(file.isEmpty()) {
+                imageUrl = null;
+            } else {
+                imageUrl = uploaderService.upload(file);
+            }
+            commentRepository.save(new Comment(commentRequestDto, imageUrl, user, post));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @Override
     public Optional<Comment> findById(Long id) {
         try {
             return commentRepository.findById(id);
@@ -45,6 +57,7 @@ public class CommentServiceImpl implements CommentService {
         return Optional.empty();
     }
 
+    @Override
     public void updateLike(Comment comment, User user) {
         try {
             List<CommentLike> commentLikeList = comment.getLikers();
@@ -62,6 +75,7 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    @Override
     public void updateHate(Comment comment, User user) {
         try {
             List<CommentHate> commentHateList = comment.getHaters();

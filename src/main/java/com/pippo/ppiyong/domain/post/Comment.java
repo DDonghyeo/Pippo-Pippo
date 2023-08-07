@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,8 +31,10 @@ public class Comment extends BaseTimeEntity {
 
     private String content;
 
-    @OneToMany(mappedBy = "comment")
-    private List<Image> imageList;
+    //@OneToMany(mappedBy = "comment")
+    //private List<Image> imageList;
+
+    private String imageUrl;
 
     @OneToMany(mappedBy = "comment")
     private List<CommentHate> haters;
@@ -46,8 +47,9 @@ public class Comment extends BaseTimeEntity {
     private Post post;
 
     //이미지 추가 필요
-    public Comment(CommentRequestDto commentRequestDto, User user, Post post) {
+    public Comment(CommentRequestDto commentRequestDto, String imageUrl, User user, Post post) {
         this.content = commentRequestDto.getContent();
+        this.imageUrl = imageUrl;
         this.user = user;
         this.post = post;
         LocalDateTime now = LocalDateTime.now();

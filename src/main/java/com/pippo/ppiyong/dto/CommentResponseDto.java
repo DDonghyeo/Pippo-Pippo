@@ -4,7 +4,6 @@ import com.pippo.ppiyong.domain.post.Comment;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 public class CommentResponseDto {
@@ -25,7 +24,7 @@ public class CommentResponseDto {
 
     private boolean isHate;
 
-    private List<String> imageList; // 이미지 여러개?
+    private String imageUrl;
 
     public CommentResponseDto(Comment comment) {
         this.location = null;//어..............
@@ -36,6 +35,6 @@ public class CommentResponseDto {
         this.hate = comment.getHaters().size();
         this.isLike = false; // 나중에 수정하기
         this.isHate = false; // 나중에 수정하기
-        this.imageList = null; // 나중에 수정하기
+        this.imageUrl = comment.getImageUrl();
     }
 }

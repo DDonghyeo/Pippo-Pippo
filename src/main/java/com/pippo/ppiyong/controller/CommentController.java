@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -28,12 +29,14 @@ public class CommentController {
     UserRepository userRepository; //테스트용
 
     @PostMapping("/post/{postId}")
-    public ResponseEntity<?> createComment(@PathVariable("postId") Long postId, @RequestBody CommentRequestDto commentRequestDto) {
+    public ResponseEntity<?> createComment(@PathVariable("postId") Long postId,
+                                           @RequestPart(value = "data") CommentRequestDto commentRequestDto,
+                                           @RequestPart(value = "file", required = false)MultipartFile file) {
         try {
             User user = userRepository.findByEmail("jiyun@naver.com").get();
             Optional<Post> postOptional = postService.findById(postId);
             if(postOptional.isPresent()) {
-                commentService.save(commentRequestDto, user, postOptional.get());
+                commentService.save(commentRequestDto, file, user, postOptional.get());
                 return new ResponseEntity<>(HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
