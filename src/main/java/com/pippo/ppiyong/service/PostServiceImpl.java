@@ -46,6 +46,7 @@ public class PostServiceImpl implements PostService {
         return Optional.empty();
     }
 
+    @Override
     public HomeResponseDto findPosts(Region region){
         try {
             List<HomePostResponseDto> postList = new ArrayList<>(postRepository.findByRegion(region).stream().map(HomePostResponseDto::new).toList());
