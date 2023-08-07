@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter @Setter
 public class CommentResponseDto {
@@ -17,7 +18,7 @@ public class CommentResponseDto {
 
     private String content;
 
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     private int like;
 
@@ -32,9 +33,10 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.location = null;//어..............
-        this.name = comment.getUser().getNickName();
+        String name = comment.getUser().getNickName();
+        this.name = name.charAt(0) + "*".repeat(name.length() - 1);
         this.content = comment.getContent();
-        this.createdAt = comment.getCreatedAt();
+        this.createdAt = comment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm"));
         this.like = comment.getLikers().size();
         this.hate = comment.getHaters().size();
         this.isLike = false;
@@ -45,9 +47,10 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment comment, boolean isLike, boolean isHate) {
         this.id = comment.getId();
         this.location = null;//어..............
-        this.name = comment.getUser().getNickName();
+        String name = comment.getUser().getNickName();
+        this.name = name.charAt(0) + "*".repeat(name.length() - 1);
         this.content = comment.getContent();
-        this.createdAt = comment.getCreatedAt();
+        this.createdAt = comment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm"));
         this.like = comment.getLikers().size();
         this.hate = comment.getHaters().size();
         this.isLike = isLike;
@@ -62,4 +65,6 @@ public class CommentResponseDto {
     public boolean getIsHate() {
         return isHate;
     }
+
+
 }

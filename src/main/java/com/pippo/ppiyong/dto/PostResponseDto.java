@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class PostResponseDto {
 
     private String content;
 
-    private LocalDateTime time;
+    private String time;
 
     private List<CommentResponseDto> comment;
 
@@ -26,7 +27,7 @@ public class PostResponseDto {
         this.from = post.getTitle();
         this.category = post.getType();
         this.content = post.getContent();
-        this.time = post.getCreatedAt();
+        this.time = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm"));
         this.comment = post.getCommentList().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 
@@ -34,7 +35,7 @@ public class PostResponseDto {
         this.from = post.getTitle();
         this.category = post.getType();
         this.content = post.getContent();
-        this.time = post.getCreatedAt();
+        this.time = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm"));
         this.comment = commentList;
     }
 }

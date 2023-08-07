@@ -4,7 +4,7 @@ import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.type.Type;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 public class HomePostResponseDto {
@@ -17,7 +17,7 @@ public class HomePostResponseDto {
 
     private String content;
 
-    private LocalDateTime time;
+    private String time;
 
     private int comment;
 
@@ -26,7 +26,7 @@ public class HomePostResponseDto {
         this.from = post.getTitle();
         this.category = post.getType();
         this.content = post.getContent();
-        this.time = post.getCreatedAt();
+        this.time = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm"));
         this.comment = post.getCommentList().size();
     }
 }

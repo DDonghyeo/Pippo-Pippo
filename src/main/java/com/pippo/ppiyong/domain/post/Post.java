@@ -52,14 +52,13 @@ public class Post extends BaseTimeEntity {
         this.setModifiedAt(now);
     }
 
-    public Post (Type type, String title, String content, Region region) {
+    public Post (Type type, String title, String content, Region region, LocalDateTime createDate) {
         this.type = type;
         this.title = title;
         this.content = content;
         this.region = region;
-        LocalDateTime now = LocalDateTime.now();
-        this.setCreatedAt(now);
-        this.setModifiedAt(now);
+        this.setCreatedAt(createDate);
+        this.setModifiedAt(createDate);
     }
 
 }

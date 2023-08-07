@@ -12,6 +12,8 @@ import com.pippo.ppiyong.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +31,11 @@ public class PostServiceImpl implements PostService {
     public void save(DisasterMessage message) {
         try {
             String msg = message.getMsg();
-            postRepository.save(new Post(getType(msg), extractTitle(msg), extractContent(msg), getRegion(message.getLocationName())));
+            postRepository.save(new Post(getType(msg),
+                    extractTitle(msg),
+                    extractContent(msg),
+                    getRegion(message.getLocationName()),
+                    getLocalDateTime(message.getCreateDate())));
             latestInfoRepository.save(new LatestInfo(1L, message.getId()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,6 +165,16 @@ public class PostServiceImpl implements PostService {
                 idx = locationName.length();
             }
             return Region.fromString(locationName.substring(0, idx));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private LocalDateTime getLocalDateTime(String createDate) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            return LocalDateTime.parse(createDate, formatter);
         } catch (Exception e) {
             e.printStackTrace();
         }
