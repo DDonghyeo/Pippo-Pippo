@@ -25,12 +25,6 @@ jobs:
         mkdir -p src/main/resources
         echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
         find src
-
-    - name: Setting SSL Key
-      run: |
-        cd ./src/main/resources
-        touch ./ppiyong.p12
-        echo "${{ secrets.SSL_KEY }}" > ./ppiyong.yml
     
     #Setting yml
     # - name: make application.yml
