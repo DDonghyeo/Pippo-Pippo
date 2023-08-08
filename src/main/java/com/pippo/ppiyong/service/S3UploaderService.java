@@ -23,7 +23,7 @@ public class S3UploaderService {
     private String bucket;
 
     //private final String fileDir = System.getProperty("user.dir") + "/src/main/resources/files/"; // 로컬 환경 파일 경로
-    private final String fileDir = "/home/ec2-user/"; // 배포 환경 파일 경로
+    private final String fileDir = "/home/"; // 배포 환경 파일 경로
 
     public String upload(MultipartFile file) {
         try {

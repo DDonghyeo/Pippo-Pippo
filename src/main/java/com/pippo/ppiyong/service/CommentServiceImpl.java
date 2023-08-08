@@ -40,6 +40,9 @@ public class CommentServiceImpl implements CommentService {
                 imageUrl = null;
             } else {
                 imageUrl = uploaderService.upload(file);
+                if(imageUrl == null) {
+                    return;
+                }
             }
             commentRepository.save(new Comment(commentRequestDto, imageUrl, user, post));
         } catch (Exception e) {
