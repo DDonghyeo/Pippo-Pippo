@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     public void save(CommentRequestDto commentRequestDto, MultipartFile file, User user, Post post) {
         try {
             String imageUrl;
-            if(file.isEmpty()) {
+            if(file == null || file.isEmpty()) {
                 imageUrl = null;
             } else {
                 imageUrl = uploaderService.upload(file);
