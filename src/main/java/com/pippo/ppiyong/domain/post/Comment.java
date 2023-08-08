@@ -36,6 +36,8 @@ public class Comment extends BaseTimeEntity {
 
     private String imageUrl;
 
+    private String location;
+
     @OneToMany(mappedBy = "comment")
     private List<CommentHate> haters;
 
@@ -49,6 +51,7 @@ public class Comment extends BaseTimeEntity {
     public Comment(CommentRequestDto commentRequestDto, String imageUrl, User user, Post post) {
         this.content = commentRequestDto.getContent();
         this.imageUrl = imageUrl;
+        this.location = commentRequestDto.getLocation();
         this.user = user;
         this.post = post;
         LocalDateTime now = LocalDateTime.now();

@@ -31,7 +31,7 @@ public class CommentResponseDto {
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
-        this.location = null;//어..............
+        this.location = comment.getLocation();
         String name = comment.getUser().getNickName();
         this.name = name.charAt(0) + "*".repeat(name.length() - 1);
         this.content = comment.getContent();
@@ -45,7 +45,7 @@ public class CommentResponseDto {
 
     public CommentResponseDto(Comment comment, boolean isLike, boolean isHate) {
         this.id = comment.getId();
-        this.location = null;//어..............
+        this.location = comment.getLocation();
         String name = comment.getUser().getNickName();
         this.name = name.charAt(0) + "*".repeat(name.length() - 1);
         this.content = comment.getContent();
