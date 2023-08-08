@@ -130,14 +130,14 @@ public class PostServiceImpl implements PostService {
 
     private Type getType(String content) {
         try {
+            if(content.contains("태풍")) {
+                return Type.WIND;
+            }
             if(content.contains("호우")) {
                 return Type.RAIN;
             }
             if(content.contains("폭염") || content.contains("고온")) {
                 return Type.HOT;
-            }
-            if(content.contains("태풍")) {
-                return Type.WIND;
             }
             if(content.contains("대설") || content.contains("폭설")) {
                 return Type.SNOW;
