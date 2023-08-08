@@ -1,6 +1,6 @@
 package com.pippo.ppiyong.repository;
 
-import com.pippo.ppiyong.domain.LatestInfo;
+import com.pippo.ppiyong.domain.message.LatestInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

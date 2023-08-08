@@ -1,6 +1,5 @@
 package com.pippo.ppiyong.domain.post;
 
-import com.pippo.ppiyong.domain.DisasterMessage;
 import com.pippo.ppiyong.dto.PostRequestDto;
 import com.pippo.ppiyong.type.BaseTimeEntity;
 import com.pippo.ppiyong.type.Region;

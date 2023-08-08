@@ -1,4 +1,4 @@
-package com.pippo.ppiyong.domain;
+package com.pippo.ppiyong.domain.message;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

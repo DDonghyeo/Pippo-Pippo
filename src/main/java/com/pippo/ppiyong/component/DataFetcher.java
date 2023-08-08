@@ -1,11 +1,10 @@
 package com.pippo.ppiyong.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pippo.ppiyong.domain.DisasterMessage;
-import com.pippo.ppiyong.domain.DisasterMsgResponse;
+import com.pippo.ppiyong.domain.message.DisasterMessage;
+import com.pippo.ppiyong.domain.message.DisasterMsgResponse;
 import com.pippo.ppiyong.service.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,7 +16,7 @@ public class DataFetcher {
     @Autowired
     PostServiceImpl postService;
 
-    @Scheduled(fixedRate = 10000) // 10초마다 실행
+    //@Scheduled(fixedRate = 10000) // 10초마다 실행
     public void fetchData() {
         try {
             //System.out.println("start");

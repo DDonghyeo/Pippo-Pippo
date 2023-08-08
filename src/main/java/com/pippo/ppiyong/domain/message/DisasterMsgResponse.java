@@ -1,4 +1,4 @@
-package com.pippo.ppiyong.domain;
+package com.pippo.ppiyong.domain.message;
 
 import lombok.Getter;
 import lombok.Setter;

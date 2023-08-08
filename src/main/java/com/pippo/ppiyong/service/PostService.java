@@ -1,6 +1,6 @@
 package com.pippo.ppiyong.service;
 
-import com.pippo.ppiyong.domain.DisasterMessage;
+import com.pippo.ppiyong.domain.message.DisasterMessage;
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.dto.HomeResponseDto;
 import com.pippo.ppiyong.type.Region;

@@ -46,7 +46,6 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    //이미지 추가 필요
     public Comment(CommentRequestDto commentRequestDto, String imageUrl, User user, Post post) {
         this.content = commentRequestDto.getContent();
         this.imageUrl = imageUrl;
