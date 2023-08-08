@@ -18,13 +18,20 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+
+    - name: Set YML
+      run: |
+        mkdir -p src/main/resources
+        echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+        find src
     
     #Setting yml
-    - name: make application.yml
-      run: |
-        cd ./src/main/resources
-        touch ./application.yml
-        echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+    # - name: make application.yml
+    #   run: |
+    #     cd ./src/main/resources
+    #     touch ./application.yml
+    #     echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
     
     #gradlew chmod
     - name: Grant execute permission for gradlew
@@ -65,4 +72,5 @@ jobs:
         script: |
           sudo docker stop ${{ secrets.DOCKERHUB_IMAGENAME }}
           sudo docker rm ${{ secrets.DOCKERHUB_IMAGENAME }}
-          sudo docker run -it -d -p 8080:8080 --name ${{ secrets.DOCKERHUB_IMAGENAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
+          sudo docker run -it -d -p 443:443 --name ${{ secrets.DOCKERHUB_IMAGENAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
