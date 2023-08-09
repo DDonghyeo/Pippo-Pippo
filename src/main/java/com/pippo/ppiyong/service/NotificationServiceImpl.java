@@ -29,7 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<NotificationResponseDto> findAllByRegion(Region region) {
         // 게시물 가져오기
-        Optional<Post> postList = notificationRepository.findAllByRegion(region);
+        List<Post> postList = notificationRepository.findAllByRegion(region);
         return postList.stream().map(NotificationResponseDto::new).collect(Collectors.toList());
     }
 }
