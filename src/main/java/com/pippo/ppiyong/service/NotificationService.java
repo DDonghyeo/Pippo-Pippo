@@ -11,5 +11,5 @@ import java.util.List;
 public interface NotificationService {
 
     // 알림 조회
-    List<NotificationResponseDto> findById(Long postId);
+    List<NotificationResponseDto> findById(Long id);
 }
