@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/notification")
 public class NotificationController {
 
     @Autowired
@@ -17,8 +16,8 @@ public class NotificationController {
 
 
     // 알림 조회
-    @GetMapping("")
-    public ResponseEntity<?> findAllByPostId(Long postId) {
-        return ResponseEntity.ok(NotificationService.findAllByPostId());
+    @GetMapping("api/notification")
+    public ResponseEntity<?> findAllByPostId(Long id) {
+        return ResponseEntity.ok(notificationService.findById(id));
     }
 }
