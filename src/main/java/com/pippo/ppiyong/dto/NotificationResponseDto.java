@@ -8,24 +8,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class NotificationResponseDto {
     private Long id;
-    private Type type;
     private String title;
     private String content;
-    private Integer views;
-    private Region region;
+    private final String time;
 
     public NotificationResponseDto(Post post) {
         this.id = post.getId();
-        this.type = post.getType();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.views = post.getViews();
-        this.region = post.getRegion();
+        this.time = post.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm"));
     }
 }
