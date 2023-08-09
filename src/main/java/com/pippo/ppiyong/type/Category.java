@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Category {
     WEATHER("날씨"),
-    EARTHQUAK("지진/해일");
-
-    //등 추가
+    EARTHQUAKE("지진/해일"),
+    CIVIL("민방위"),
+    LOST("실종자");
 
     private final String name;
 

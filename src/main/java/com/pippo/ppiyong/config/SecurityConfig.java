@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -34,18 +37,25 @@ public class SecurityConfig {
                 // 그 외 모든 요청 (any) 에 대해서는 인증 요구
                 .authorizeHttpRequests((authorizeRequest) ->
                         authorizeRequest
+                                .requestMatchers("/**").permitAll() //임시허용
                                 //아래 링크는 모든 통신 허용
-                                .requestMatchers(
-                                        "/home",
-                                        "/shelter",
-                                        "/post",
-                                        "/user/register",
-                                        "/user/login",
-                                        "/user/emailCheck",
-                                        "/user/verification",
-                                        "/user/findPw").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/api/usage").permitAll()
+                                .requestMatchers(/* swagger v2 */
+                                        "/v2/api-docs",
+                                        "/swagger-resources",
+                                        "/swagger-resources/**",
+                                        "/configuration/ui",
+                                        "/configuration/security",
+                                        "/swagger-ui.html",
+                                        "/webjars/**",
+                                        /* swagger v3 */
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**").permitAll()
+
                                 //외에 다른 Request는 인증되어야 함
-                                .anyRequest().authenticated()
+                                //.anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
 
                 // Rest 방식으로 로그인을 할 것이므로 form 로그인 사용 안함
@@ -65,6 +75,16 @@ public class SecurityConfig {
 
 
         return http.build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
     }
 
 
