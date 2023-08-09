@@ -52,6 +52,7 @@ public class SecurityConfig {
                                         /* swagger v3 */
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**").permitAll()
+
                                 //외에 다른 Request는 인증되어야 함
                                 //.anyRequest().authenticated()
                                 .anyRequest().permitAll()
