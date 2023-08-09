@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationResponseDto {
-    private Long post_id;
+    private Long id;
     private Type type;
     private String title;
     private String content;
@@ -21,7 +21,7 @@ public class NotificationResponseDto {
     private Region region;
 
     public NotificationResponseDto(Post post) {
-        this.post_id = post.getId();
+        this.id = post.getId();
         this.type = post.getType();
         this.title = post.getTitle();
         this.content = post.getContent();
