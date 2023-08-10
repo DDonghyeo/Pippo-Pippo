@@ -11,6 +11,8 @@ import com.pippo.ppiyong.type.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,8 +37,30 @@ public class NotificationServiceImpl implements NotificationService {
 
     // 알림 지역 조회
     @Override
-    public List<RegionResponseDto> findByRegion(User user) {
-        List<Region> regionList = notificationRepository.findByRegion(user);
-        return regionList.stream().map(region -> new RegionResponseDto(user)).collect(Collectors.toList());
+    public List<RegionResponseDto> findAllRegions(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElse(null);
+        if (user == null) {
+            // 유효하지 않은 사용자 처리 로직
+            return Collections.emptyList();
+        }
+
+        Region userRegion = user.getRegion();
+        if (userRegion != null) {
+            List<RegionResponseDto> regionResponseList = new ArrayList<>();
+            regionResponseList.add(new RegionResponseDto(userRegion)); // 이 부분 수정
+            return regionResponseList;
+        }
+
+        return Collections.emptyList();
     }
+
+    @Override
+    public RegionResponseDto getUserRegionByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null && user.getRegion() != null) {
+            return new RegionResponseDto(user.getRegion());
+        }
+        return null; // 또는 예외 처리 등을 수행할 수 있습니다.
+    }
+
 }

@@ -6,9 +6,17 @@ import lombok.Getter;
 
 @Getter
 public class RegionResponseDto {
-    private Region region;
+    private String region;
 
-    public RegionResponseDto(User user) {
-        this.region = user.getRegion();
+    public RegionResponseDto(Region region) {
+        if (region != null) {
+            this.region = region.name();
+        }
     }
+
+    // Getter and Setter for regionName
 }
+
+
+
+

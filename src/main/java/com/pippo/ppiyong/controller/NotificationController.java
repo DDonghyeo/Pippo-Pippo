@@ -30,31 +30,38 @@ public class NotificationController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     // 알림 조회
-    @GetMapping("/notification/{region}")
-    public ResponseEntity<?> findAllByRegion(@PathVariable Region region) {
-        return ResponseEntity.ok(notificationService.findAllByRegion(region));
+    @GetMapping("/notification")
+    public ResponseEntity<List<NotificationResponseDto>> findAllByRegion() {
+        String userEmail = "test@gmail.com";
+        User user = userRepository.findByEmail(userEmail).orElse(null);
+
+        if (user == null) {
+            // 유효하지 않은 사용자 처리 로직
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        List<NotificationResponseDto> responseDtoList = notificationService.findAllByRegion(user.getRegion());
+        return ResponseEntity.ok(responseDtoList);
     }
 
     // 알림 지역 조회
     @GetMapping("/notification/region")
-    public ResponseEntity<List<NotificationResponseDto>> findByRegion() {
-        String userEmail = "test@gmail.com"; // 조회 하고자 하는 이메일
-        User user = userRepository.findByEmail(userEmail).orElse(null);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<RegionResponseDto> getUserRegion() {
+        String userEmail = "test@gmail.com"; // 원하는 사용자의 이메일
+        RegionResponseDto userRegion = notificationService.getUserRegionByEmail(userEmail);
 
-        List<NotificationResponseDto> responseDtoList = notificationService.findAllByRegion(user.getRegion());
-        return ResponseEntity.ok().body(responseDtoList);
+        if (userRegion != null) {
+            return ResponseEntity.ok(userRegion);
+        } else {
+            return ResponseEntity.notFound().build(); // 또는 다른 응답코드 사용 가능
+        }
     }
 
-
 }
-
-// 알림 지역 설정
-//    @PutMapping("/notification/region")
-//    public ResponseEntity<?> updateRegion(User user) {
-//        return ResponseEntity.ok();
-//    }
 
