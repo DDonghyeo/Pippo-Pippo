@@ -20,7 +20,6 @@ public class HomeController {
     @GetMapping("/home")
     public ResponseEntity<?> getHome(@RequestParam("region") Region region) {
         try {
-            //Region region = Region.valueOf(location);
             return ResponseEntity.ok().body(postService.findPosts(region));
         } catch (Exception e) {
             e.printStackTrace();

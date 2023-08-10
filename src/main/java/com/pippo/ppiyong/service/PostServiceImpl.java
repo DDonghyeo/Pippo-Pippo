@@ -133,7 +133,7 @@ public class PostServiceImpl implements PostService {
             if(content.contains("태풍")) {
                 return Type.WIND;
             }
-            if(content.contains("호우")) {
+            if(content.contains("호우") || content.contains("많은 비") || content.contains("많은비")) {
                 return Type.RAIN;
             }
             if(content.contains("폭염") || content.contains("고온")) {
