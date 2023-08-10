@@ -26,4 +26,10 @@ public class NotificationController {
     public ResponseEntity<?> findAllByRegion(@PathVariable Region region) {
         return ResponseEntity.ok(notificationService.findAllByRegion(region));
     }
+
+    // 알림 지역 조회
+    @GetMapping("/notification/region")
+    public ResponseEntity<?> findAllByUserRegion(User user) {
+        return ResponseEntity.ok(user.getRegion());
+    }
 }

@@ -13,4 +13,6 @@ import java.util.Optional;
 @Repository
 public interface NotificationRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByRegion(Region region);
+
+    List<Region> findByRegion(User user);
 }

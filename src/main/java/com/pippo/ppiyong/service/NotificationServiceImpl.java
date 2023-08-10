@@ -1,7 +1,9 @@
 package com.pippo.ppiyong.service;
 
+import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.dto.NotificationResponseDto;
+import com.pippo.ppiyong.dto.RegionResponseDto;
 import com.pippo.ppiyong.repository.NotificationRepository;
 import com.pippo.ppiyong.repository.PostRepository;
 import com.pippo.ppiyong.repository.UserRepository;
@@ -31,4 +33,10 @@ public class NotificationServiceImpl implements NotificationService {
         return postList.stream().map(NotificationResponseDto::new).collect(Collectors.toList());
     }
 
+    // 알림 지역 조회
+    @Override
+    public List<RegionResponseDto> findByRegion(User user) {
+        List<Region> regionList = notificationRepository.findByRegion(user);
+        return regionList.stream().map(region -> new RegionResponseDto(user)).collect(Collectors.toList());
+    }
 }
