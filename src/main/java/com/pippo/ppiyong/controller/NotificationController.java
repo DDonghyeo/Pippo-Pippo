@@ -1,11 +1,14 @@
 package com.pippo.ppiyong.controller;
 
+import com.pippo.ppiyong.auth.CustomUserDetail;
+import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.repository.NotificationRepository;
 import com.pippo.ppiyong.service.NotificationService;
 import com.pippo.ppiyong.type.Region;
 import com.pippo.ppiyong.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,5 +25,13 @@ public class NotificationController {
     @GetMapping("/notification/{region}")
     public ResponseEntity<?> findAllByRegion(@PathVariable Region region) {
         return ResponseEntity.ok(notificationService.findAllByRegion(region));
+    }
+
+    // 알림 지역 조회
+    @GetMapping("/notification/region")
+    public ResponseEntity<List<RegisterResponseDto>> getUserRegion(@AuthenticationPrincipal CustomUserDetail customUserDetail) {
+        List<RegisterResponseDto> regionList = userService.getMyRegion(customUserDetail.getUser().getRegion());
+
+        return ResponseEntity.ok(regionList);
     }
 }

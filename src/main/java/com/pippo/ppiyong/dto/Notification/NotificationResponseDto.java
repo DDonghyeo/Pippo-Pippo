@@ -1,4 +1,4 @@
-package com.pippo.ppiyong.dto;
+package com.pippo.ppiyong.dto.Notification;
 
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.type.Region;
