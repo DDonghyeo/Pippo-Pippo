@@ -4,16 +4,17 @@ import com.pippo.ppiyong.type.BaseTimeEntity;
 import com.pippo.ppiyong.type.Region;
 import com.pippo.ppiyong.type.Type;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "Post")
 public class Post extends BaseTimeEntity {
 
@@ -34,5 +35,17 @@ public class Post extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Region region;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList;
+
+    public Post (Type type, String title, String content, Region region, LocalDateTime createDate) {
+        this.type = type;
+        this.title = title;
+        this.content = content;
+        this.region = region;
+        this.setCreatedAt(createDate);
+        this.setModifiedAt(createDate);
+    }
 
 }

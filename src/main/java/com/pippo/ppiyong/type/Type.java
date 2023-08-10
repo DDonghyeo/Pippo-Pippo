@@ -8,13 +8,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Type {
     RAIN("호우"),
-    EARTHQUAK("지진/해일");
-
-    //등 추가
+    HOT("폭염"),
+    WIND("태풍"),
+    SNOW("폭설"),
+    EARTHQUAKE("지진/해일"),
+    CIVIL("민방위"),
+    LOST("실종자");
 
     private final String name;
 
-    @JsonValue
+    //@JsonValue
     public String getName() {
         return name;
     }
