@@ -2,6 +2,8 @@ package com.pippo.ppiyong.service;
 
 import com.pippo.ppiyong.auth.CustomUserDetail;
 import com.pippo.ppiyong.domain.User;
+import com.pippo.ppiyong.exception.CustomException;
+import com.pippo.ppiyong.exception.ErrorCode;
 import com.pippo.ppiyong.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,14 +50,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    private Authentication authenticateUser(String loginId, String password) {
-        UserDetails userDetails = loadUserByUsername(loginId);
+    private Authentication authenticateUser(String email, String password) {
+        UserDetails userDetails = loadUserByUsername(email);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, password, new ArrayList<>());
 
         try {
             return authenticationManager.authenticate(authentication);
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid email or password");
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
     }
 
