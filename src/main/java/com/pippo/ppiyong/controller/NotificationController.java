@@ -3,6 +3,7 @@ package com.pippo.ppiyong.controller;
 import com.pippo.ppiyong.auth.CustomUserDetail;
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Post;
+import com.pippo.ppiyong.dto.CategoryResponseDto;
 import com.pippo.ppiyong.dto.NotificationResponseDto;
 import com.pippo.ppiyong.dto.RegionResponseDto;
 import com.pippo.ppiyong.repository.NotificationRepository;
@@ -62,6 +63,21 @@ public class NotificationController {
             return ResponseEntity.notFound().build(); // 또는 다른 응답코드 사용 가능
         }
     }
+
+    // 알림 카테고리 조회
+    @GetMapping("/notification/category")
+    public ResponseEntity<?> getUserCategory() {
+        String userEmail = "test@gmail.com"; // 원하는 사용자의 이메일
+        CategoryResponseDto categoryResponseDto = notificationService.getUserCategoryByEmail(userEmail);
+
+        if (categoryResponseDto != null) {
+            return ResponseEntity.ok(categoryResponseDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
 }
 
