@@ -14,7 +14,7 @@ public enum Category {
 
     private final String name;
 
-    @JsonValue
+    //@JsonValue
     public String getName() {
         return name;
     }
