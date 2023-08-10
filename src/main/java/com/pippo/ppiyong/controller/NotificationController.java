@@ -1,11 +1,14 @@
 package com.pippo.ppiyong.controller;
 
+import com.pippo.ppiyong.auth.CustomUserDetail;
+import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.repository.NotificationRepository;
 import com.pippo.ppiyong.service.NotificationService;
 import com.pippo.ppiyong.type.Region;
 import com.pippo.ppiyong.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.pippo.ppiyong.repository;
 
+import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.type.Region;
 import com.pippo.ppiyong.type.Type;

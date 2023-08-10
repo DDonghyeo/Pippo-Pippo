@@ -6,12 +6,10 @@ import com.pippo.ppiyong.repository.NotificationRepository;
 import com.pippo.ppiyong.repository.PostRepository;
 import com.pippo.ppiyong.repository.UserRepository;
 import com.pippo.ppiyong.type.Region;
-import com.pippo.ppiyong.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,4 +30,5 @@ public class NotificationServiceImpl implements NotificationService {
         List<Post> postList = notificationRepository.findAllByRegion(region);
         return postList.stream().map(NotificationResponseDto::new).collect(Collectors.toList());
     }
+
 }
