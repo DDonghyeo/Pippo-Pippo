@@ -44,8 +44,6 @@ public class Post extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.region = region;
-        this.setCreatedAt(createDate);
-        this.setModifiedAt(createDate);
     }
 
 }

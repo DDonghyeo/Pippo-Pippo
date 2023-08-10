@@ -1,10 +1,12 @@
 package com.pippo.ppiyong.dto;
 
+import com.pippo.ppiyong.auth.Authority;
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.type.Region;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @AllArgsConstructor
@@ -21,10 +23,8 @@ public class RegisterRequestDto {
                 .password(password)
                 .nickName(nickName)
                 .region(region)
+                .authority(Authority.ROLE_USER)
                 .build();
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
