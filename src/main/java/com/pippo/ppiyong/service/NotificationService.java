@@ -8,10 +8,13 @@ import com.pippo.ppiyong.type.Region;
 import java.util.List;
 
 public interface NotificationService {
-
     // 알림 조회
     List<NotificationResponseDto> findAllByRegion(Region region);
 
     // 알림 지역 조회
-    List<RegionResponseDto> findByRegion(User user);
+    List<RegionResponseDto> findAllRegions(String userEmail);
+
+    // 사용자의 지역 정보 조회
+    RegionResponseDto getUserRegionByEmail(String email);
 }
+
