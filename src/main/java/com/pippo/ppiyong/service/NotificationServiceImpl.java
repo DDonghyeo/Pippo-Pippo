@@ -2,6 +2,7 @@ package com.pippo.ppiyong.service;
 
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Post;
+import com.pippo.ppiyong.dto.CategoryResponseDto;
 import com.pippo.ppiyong.dto.NotificationResponseDto;
 import com.pippo.ppiyong.dto.RegionResponseDto;
 import com.pippo.ppiyong.repository.NotificationRepository;
@@ -61,6 +62,16 @@ public class NotificationServiceImpl implements NotificationService {
             return new RegionResponseDto(user.getRegion());
         }
         return null; // 또는 예외 처리 등을 수행할 수 있습니다.
+    }
+
+    @Override
+    public CategoryResponseDto getUserCategoryByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null && user.getCategory() != null) {
+            return new CategoryResponseDto(user.getCategory());
+        }
+
+        return null;
     }
 
 }

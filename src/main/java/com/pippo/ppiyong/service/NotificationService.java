@@ -1,6 +1,7 @@
 package com.pippo.ppiyong.service;
 
 import com.pippo.ppiyong.domain.User;
+import com.pippo.ppiyong.dto.CategoryResponseDto;
 import com.pippo.ppiyong.dto.NotificationResponseDto;
 import com.pippo.ppiyong.dto.RegionResponseDto;
 import com.pippo.ppiyong.type.Region;
@@ -16,5 +17,7 @@ public interface NotificationService {
 
     // 사용자의 지역 정보 조회
     RegionResponseDto getUserRegionByEmail(String email);
+
+    CategoryResponseDto getUserCategoryByEmail(String email);
 }
 
