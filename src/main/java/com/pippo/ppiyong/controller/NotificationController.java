@@ -38,7 +38,7 @@ public class NotificationController {
 
     // 알림 조회
     @GetMapping("/notification")
-    public ResponseEntity<List<NotificationResponseDto>> findAllByRegion() {
+    public ResponseEntity<List<NotificationResponseDto>> findAllByRegionAndCategory() {
         String userEmail = "test@gmail.com";
         User user = userRepository.findByEmail(userEmail).orElse(null);
 
@@ -47,9 +47,10 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        List<NotificationResponseDto> responseDtoList = notificationService.findAllByRegion(user.getRegion());
+        List<NotificationResponseDto> responseDtoList = notificationService.findAllByRegionAndCategory(user);
         return ResponseEntity.ok(responseDtoList);
     }
+
 
     // 알림 지역 조회
     @GetMapping("/notification/region")

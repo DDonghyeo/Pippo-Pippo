@@ -12,6 +12,8 @@ public interface NotificationService {
     // 알림 조회
     List<NotificationResponseDto> findAllByRegion(Region region);
 
+    List<NotificationResponseDto> findAllByRegionAndCategory(User user);
+
     // 알림 지역 조회
     List<RegionResponseDto> findAllRegions(String userEmail);
 

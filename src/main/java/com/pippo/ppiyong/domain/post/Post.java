@@ -1,6 +1,7 @@
 package com.pippo.ppiyong.domain.post;
 
 import com.pippo.ppiyong.type.BaseTimeEntity;
+import com.pippo.ppiyong.type.Category;
 import com.pippo.ppiyong.type.Region;
 import com.pippo.ppiyong.type.Type;
 import jakarta.persistence.*;
@@ -38,6 +39,9 @@ public class Post extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     public Post (Type type, String title, String content, Region region, LocalDateTime createDate) {
         this.type = type;

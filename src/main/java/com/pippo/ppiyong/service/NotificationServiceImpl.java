@@ -8,6 +8,7 @@ import com.pippo.ppiyong.dto.RegionResponseDto;
 import com.pippo.ppiyong.repository.NotificationRepository;
 import com.pippo.ppiyong.repository.PostRepository;
 import com.pippo.ppiyong.repository.UserRepository;
+import com.pippo.ppiyong.type.Category;
 import com.pippo.ppiyong.type.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,17 @@ public class NotificationServiceImpl implements NotificationService {
         List<Post> postList = notificationRepository.findAllByRegion(region);
         return postList.stream().map(NotificationResponseDto::new).collect(Collectors.toList());
     }
+
+    @Override
+    public List<NotificationResponseDto> findAllByRegionAndCategory(User user) {
+        Region userRegion = user.getRegion();
+        Category userCategory = user.getCategory();
+
+        List<Post> postList = notificationRepository.findAllByRegionAndCategory(userRegion, userCategory);
+
+        return postList.stream().map(NotificationResponseDto::new).collect(Collectors.toList());
+    }
+
 
     // 알림 지역 조회
     @Override
