@@ -22,7 +22,7 @@ public class HomeController {
     @Autowired
     NewsServiceImpl newsService;
 
-    @Operation(summary = "메인 페이지(뉴스 및 재난문자 조회)", description = "query string: region")
+    @Operation(summary = "메인 페이지(뉴스 및 재난문자 조회)", description = "query string: region(api 명세서에 나와있는대로 SEOUL 이런식으로 적어주셔야해용)")
     @GetMapping("/home")
     public ResponseEntity<?> getHome(@RequestParam("region") Region region) {
         try {
