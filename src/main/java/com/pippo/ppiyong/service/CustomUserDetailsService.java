@@ -50,7 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    private Authentication authenticateUser(String email, String password) {
+    public Authentication authenticateUser(String email, String password) {
         UserDetails userDetails = loadUserByUsername(email);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, password, new ArrayList<>());
 
@@ -62,7 +62,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    private void createSessionAndSetCookie(HttpServletRequest request, HttpServletResponse response) {
+    public void createSessionAndSetCookie(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext());
