@@ -1,15 +1,17 @@
 package com.pippo.ppiyong.controller;
 
+import com.pippo.ppiyong.auth.CustomUserDetail;
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Comment;
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.dto.CommentRequestDto;
-import com.pippo.ppiyong.repository.UserRepository;
 import com.pippo.ppiyong.service.CommentServiceImpl;
 import com.pippo.ppiyong.service.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,15 +28,14 @@ public class CommentController {
     @Autowired
     CommentServiceImpl commentService;
 
-    @Autowired
-    UserRepository userRepository; //테스트용
-
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/post/{postId}")
     public ResponseEntity<?> createComment(@PathVariable("postId") Long postId,
                                            @RequestPart(value = "data") CommentRequestDto commentRequestDto,
-                                           @RequestPart(value = "file", required = false)MultipartFile file) {
+                                           @RequestPart(value = "file", required = false)MultipartFile file,
+                                           @AuthenticationPrincipal CustomUserDetail customUserDetail) {
         try {
-            User user = userRepository.findByEmail("jiyun@naver.com").get();
+            User user = customUserDetail.getUser();
             Optional<Post> postOptional = postService.findById(postId);
             if(postOptional.isPresent()) {
                 commentService.save(commentRequestDto, file, user, postOptional.get());
@@ -47,10 +48,11 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/comment/{commentId}/like")
-    public ResponseEntity<?> likeComment(@PathVariable("commentId") Long commentId) {
+    public ResponseEntity<?> likeComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
         try {
-            User user = userRepository.findByEmail("jiyun@naver.com").get();
+            User user = customUserDetail.getUser();
             Optional<Comment> commentOptional = commentService.findById(commentId);
             if(commentOptional.isPresent()) {
                 commentService.updateLike(commentOptional.get(), user);
@@ -63,10 +65,11 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/comment/{commentId}/hate")
-    public ResponseEntity<?> hateComment(@PathVariable("commentId") Long commentId) {
+    public ResponseEntity<?> hateComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
         try {
-            User user = userRepository.findByEmail("jiyun@naver.com").get();
+            User user = customUserDetail.getUser();
             Optional<Comment> commentOptional = commentService.findById(commentId);
             if(commentOptional.isPresent()) {
                 commentService.updateHate(commentOptional.get(), user);

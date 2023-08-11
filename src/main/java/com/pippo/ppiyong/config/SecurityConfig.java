@@ -4,6 +4,7 @@ import com.pippo.ppiyong.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -40,6 +41,9 @@ public class SecurityConfig {
                                 .requestMatchers("/api/user/register").permitAll() //유저 로그인
                                 .requestMatchers("/api/user/findPw").permitAll() //비밀번호 재발급
                                 .requestMatchers("/api/usage").permitAll()
+                                .requestMatchers("/api/home").permitAll() //메인페이지
+                                .requestMatchers(HttpMethod.GET, "/api/post/*").permitAll() //게시물 상세조회
+                                .requestMatchers("/api/shelter").permitAll() //대피소 조회
                                 .requestMatchers(/* swagger v2 */
                                         "/v2/api-docs",
                                         "/swagger-resources",
