@@ -2,6 +2,7 @@ package com.pippo.ppiyong.controller;
 
 import com.pippo.ppiyong.auth.CustomUserDetail;
 import com.pippo.ppiyong.dto.RegisterRequestDto;
+import com.pippo.ppiyong.dto.UpdatePasswordDto;
 import com.pippo.ppiyong.dto.UserLoginDto;
 import com.pippo.ppiyong.service.CustomUserDetailsService;
 import com.pippo.ppiyong.service.UserService;
@@ -33,21 +34,21 @@ public class UserController {
     private final CustomUserDetailsService customUserDetailsService;
 
     //회원가입
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestBody RegisterRequestDto registerRequestDto) {
         customUserDetailsService.signUpUser(registerRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //로그인
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto , HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         customUserDetailsService.login(servletRequest, servletResponse, userLoginDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //닉네임 변경
-    @PutMapping("nickname")
+    @PutMapping("/nickname")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateNickName(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("nickName") String nickName) {
         userService.updateNickName(customUserDetail.getUserEmail(), nickName);
@@ -55,11 +56,21 @@ public class UserController {
     }
 
     //지역 변경
-    @PutMapping("nickname")
+    @PutMapping("/region")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateRegion(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("region") String region) {
         userService.updateRegion(customUserDetail.getUserEmail(), region);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    //비밀번호 변경
+    @PutMapping("/pw")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> updatePW(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestBody UpdatePasswordDto updatePasswordDto) {
+        userService.updatePaswword(customUserDetail.getUserEmail(), updatePasswordDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
 }
