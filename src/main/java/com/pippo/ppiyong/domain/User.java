@@ -64,4 +64,8 @@ public class User extends BaseTimeEntity {
         this.nickName = nickName;
     }
 
+    public void updateRegion(String region) {
+        this.region = Region.fromString(region);
+    }
+
 }

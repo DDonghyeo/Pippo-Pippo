@@ -33,14 +33,14 @@ public class UserController {
     private final CustomUserDetailsService customUserDetailsService;
 
     //회원가입
-    @PostMapping("/register")
+    @PostMapping("register")
     public ResponseEntity<?> saveUser(@RequestBody RegisterRequestDto registerRequestDto) {
         customUserDetailsService.signUpUser(registerRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //로그인
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto , HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         customUserDetailsService.login(servletRequest, servletResponse, userLoginDto);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -51,6 +51,14 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateNickName(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("nickName") String nickName) {
         userService.updateNickName(customUserDetail.getUserEmail(), nickName);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //지역 변경
+    @PutMapping("nickname")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> updateRegion(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("region") String region) {
+        userService.updateRegion(customUserDetail.getUserEmail(), region);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

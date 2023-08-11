@@ -34,4 +34,12 @@ public class UserService {
         user.updateNickName(nickName);
         userRepository.save(user);
     }
+
+    //지역 변경
+    //닉네임 변경
+    public void updateRegion(String email, String region) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        user.updateRegion(region);
+        userRepository.save(user);
+    }
 }
