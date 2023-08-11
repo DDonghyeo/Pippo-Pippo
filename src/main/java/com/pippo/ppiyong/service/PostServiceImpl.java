@@ -34,8 +34,8 @@ public class PostServiceImpl implements PostService {
             postRepository.save(new Post(getType(msg),
                     extractTitle(msg),
                     extractContent(msg),
-                    getRegion(message.getLocationName()),
-                    getLocalDateTime(message.getCreateDate())));
+                    getRegion(message.getLocationName())
+                    ));
             latestInfoRepository.save(new LatestInfo(1L, message.getId()));
         } catch (Exception e) {
             e.printStackTrace();

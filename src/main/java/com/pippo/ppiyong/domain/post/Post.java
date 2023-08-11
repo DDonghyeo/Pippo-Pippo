@@ -43,13 +43,11 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList;
 
-    public Post (Type type, String title, String content, Region region, LocalDateTime createDate) {
+    public Post (Type type, String title, String content, Region region) {
         this.type = type;
         this.title = title;
         this.content = content;
         this.region = region;
-        this.setCreatedAt(createDate);
-        this.setModifiedAt(createDate);
         if(type.equals(Type.HOT) || type.equals(Type.RAIN) || type.equals(Type.WIND) || type.equals(Type.SNOW)) {
             this.category = Category.WEATHER;
         } else if(type.equals(Type.EARTHQUAKE)) {
