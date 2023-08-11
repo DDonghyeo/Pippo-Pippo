@@ -9,6 +9,7 @@ import com.pippo.ppiyong.exception.ErrorCode;
 import com.pippo.ppiyong.service.CustomUserDetailsService;
 import com.pippo.ppiyong.service.EmailService;
 import com.pippo.ppiyong.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,7 @@ public class UserController {
     private final CustomUserDetailsService customUserDetailsService;
 
     //회원가입
+    @Operation(summary = "사용자 회원가입", description = "Request Body : email, password, nickName, region 담아서 요청")
     @PostMapping("/register")
     public ResponseEntity<?> saveUser(@RequestBody RegisterRequestDto registerRequestDto) {
         customUserDetailsService.signUpUser(registerRequestDto);
@@ -47,6 +49,7 @@ public class UserController {
     }
 
     //로그인
+    @Operation(summary = "사용자 로그인", description = "Request Body : email, password 담아서 요청")
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto , HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         customUserDetailsService.login(servletRequest, servletResponse, userLoginDto);
@@ -54,6 +57,7 @@ public class UserController {
     }
 
     //닉네임 변경
+    @Operation(summary = "사용자 닉네임 변경", description = "Query String : nickName 담아서 요청")
     @PutMapping("/nickname")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateNickName(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("nickName") String nickName) {
@@ -62,6 +66,7 @@ public class UserController {
     }
 
     //지역 변경
+    @Operation(summary = "사용자 지역 변경", description = "Query String : region 담아서 요청")
     @PutMapping("/region")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateRegion(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("region") String region) {
@@ -70,6 +75,7 @@ public class UserController {
     }
 
     //비밀번호 변경
+    @Operation(summary = "사용자 비밀번호 변경 (로그인 상태) ", description = "Request Body : password 담아서 요청")
     @PutMapping("/pw")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updatePW(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestBody UpdatePasswordDto updatePasswordDto) {
@@ -78,7 +84,8 @@ public class UserController {
     }
 
 
-    //회원정보 조
+    //회원정보 조회
+    @Operation(summary = "사용자 조회 ", description = "파라미터 X")
     @PutMapping("")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updatePW(@AuthenticationPrincipal CustomUserDetail customUserDetail) {
@@ -86,7 +93,8 @@ public class UserController {
     }
 
 
-
+    //비밀번호 재발급
+    @Operation(summary = "사용자 비밀번호 재발급 ", description = "Query String : email 전달 시 서버에서 사용자 이메일로 임시 비밀번호를 보내고, 사용자 비밀번호를 해당 비밀번호로 변경")
     @PostMapping("/findPw")
     public ResponseEntity<?> passWordReissuance(@RequestParam("email") String email) {
         try {
