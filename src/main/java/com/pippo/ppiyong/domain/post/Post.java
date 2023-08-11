@@ -48,14 +48,16 @@ public class Post extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.region = region;
-        if(type.equals(Type.HOT) || type.equals(Type.RAIN) || type.equals(Type.WIND) || type.equals(Type.SNOW)) {
-            this.category = Category.WEATHER;
-        } else if(type.equals(Type.EARTHQUAKE)) {
-            this.category = Category.EARTHQUAKE;
-        } else if(type.equals(Type.CIVIL)) {
-            this.category = Category.CIVIL;
-        } else if(type.equals(Type.LOST)) {
-            this.category = Category.LOST;
+        if(type != null) {
+            if(type.equals(Type.HOT) || type.equals(Type.RAIN) || type.equals(Type.WIND) || type.equals(Type.SNOW)) {
+                this.category = Category.WEATHER;
+            } else if(type.equals(Type.EARTHQUAKE)) {
+                this.category = Category.EARTHQUAKE;
+            } else if(type.equals(Type.CIVIL)) {
+                this.category = Category.CIVIL;
+            } else if(type.equals(Type.LOST)) {
+                this.category = Category.LOST;
+            }
         }
     }
 }
