@@ -10,5 +10,5 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsJson {
 
-    private List<News> items;
+    private List<NewsData> items;
 }

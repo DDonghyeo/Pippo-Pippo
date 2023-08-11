@@ -1,6 +1,6 @@
 package com.pippo.ppiyong.dto;
 
-import com.pippo.ppiyong.domain.news.FormattedNews;
+import com.pippo.ppiyong.domain.news.News;
 import lombok.Getter;
 
 @Getter
@@ -10,10 +10,9 @@ public class NewsResponseDto {
 
     private String url;
 
-    public NewsResponseDto(FormattedNews news) {
+    public NewsResponseDto(News news) {
         this.title = news.getTitle().replaceAll("<b>", "")
-                .replaceAll("</b>", "")
-                .replaceAll("&apos;", "'");
+                .replaceAll("</b>", "");
         this.url = news.getUrl();
     }
 }
