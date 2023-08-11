@@ -21,5 +21,7 @@ public interface NotificationService {
     RegionResponseDto getUserRegionByEmail(String email);
 
     CategoryResponseDto getUserCategoryByEmail(String email);
+
+    void updateUserRegion(User user, Region region);
 }
 

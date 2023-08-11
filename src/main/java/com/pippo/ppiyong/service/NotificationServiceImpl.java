@@ -86,4 +86,10 @@ public class NotificationServiceImpl implements NotificationService {
         return null;
     }
 
+    @Override
+    public void updateUserRegion(User user, Region region) {
+        user.updateRegion(String.valueOf(region));
+        userRepository.save(user);
+    }
+
 }

@@ -12,11 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegionRequestDto {
-    private Region region;
-
-    public User toEntity() {
-        return User.builder()
-                .region(region)
-                .build();
-    }
+    private String region;
 }
+
