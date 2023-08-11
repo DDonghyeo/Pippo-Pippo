@@ -61,4 +61,9 @@ public class CustomUserDetail implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getUserNickName() {return user.getNickName();}]
+
+    public String getUserEmail(){return user.getEmail();}
+
 }

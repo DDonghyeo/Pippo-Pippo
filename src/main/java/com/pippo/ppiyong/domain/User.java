@@ -60,4 +60,8 @@ public class User extends BaseTimeEntity {
         return passwordEncoder.matches(checkPassword, getPassword());
     }
 
+    public void updateNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
 }

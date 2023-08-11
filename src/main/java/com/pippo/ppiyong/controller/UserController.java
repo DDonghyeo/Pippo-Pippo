@@ -50,8 +50,8 @@ public class UserController {
     @PutMapping("nickname")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateNickName(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("nickName") String nickName) {
-
-        return null;
+        userService.updateNickName(customUserDetail.getUserEmail(), nickName);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
