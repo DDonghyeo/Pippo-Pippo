@@ -3,6 +3,7 @@ package com.pippo.ppiyong.service;
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.dto.RegisterRequestDto;
 import com.pippo.ppiyong.dto.UpdatePasswordDto;
+import com.pippo.ppiyong.dto.UserInfoResponseDto;
 import com.pippo.ppiyong.dto.UserLoginDto;
 import com.pippo.ppiyong.exception.CustomException;
 import com.pippo.ppiyong.exception.ErrorCode;
@@ -49,5 +50,15 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         user.updatePassword(passwordEncoder, updatePasswordDto.getPassword());
         userRepository.save(user);
+    }
+
+    //회원 정보 가져오기
+    public UserInfoResponseDto getUserInfo(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        return UserInfoResponseDto.builder()
+                .email(user.getEmail())
+                .region(user.getRegion().toString())
+                .nickName(user.getNickName())
+                .build();
     }
 }

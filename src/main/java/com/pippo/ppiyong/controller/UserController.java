@@ -72,5 +72,11 @@ public class UserController {
     }
 
 
+    //회원정보 조회
+    @PutMapping("/pw")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> updatePW(@AuthenticationPrincipal CustomUserDetail customUserDetail) {
+        return ResponseEntity.ok(userService.getUserInfo(customUserDetail.getUserEmail()));
+    }
 
 }
