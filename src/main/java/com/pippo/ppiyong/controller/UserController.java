@@ -4,7 +4,10 @@ import com.pippo.ppiyong.auth.CustomUserDetail;
 import com.pippo.ppiyong.dto.RegisterRequestDto;
 import com.pippo.ppiyong.dto.UpdatePasswordDto;
 import com.pippo.ppiyong.dto.UserLoginDto;
+import com.pippo.ppiyong.exception.CustomException;
+import com.pippo.ppiyong.exception.ErrorCode;
 import com.pippo.ppiyong.service.CustomUserDetailsService;
+import com.pippo.ppiyong.service.EmailService;
 import com.pippo.ppiyong.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +32,9 @@ public class UserController {
 
     @Autowired
     private final UserService userService;
+
+    @Autowired
+    private final EmailService emailService;
 
     @Autowired
     private final CustomUserDetailsService customUserDetailsService;
@@ -72,11 +78,25 @@ public class UserController {
     }
 
 
-    //회원정보 조회
-    @PutMapping("/pw")
+    //회원정보 조
+    @PutMapping("")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updatePW(@AuthenticationPrincipal CustomUserDetail customUserDetail) {
         return ResponseEntity.ok(userService.getUserInfo(customUserDetail.getUserEmail()));
     }
+
+
+
+    @PostMapping("/findPw")
+    public ResponseEntity<?> passWordReissuance(@RequestParam("email") String email) {
+        try {
+            emailService.sendMessageForPassword(email);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomException(ErrorCode.INVALID_VALUE);
+        }
+    }
+
 
 }

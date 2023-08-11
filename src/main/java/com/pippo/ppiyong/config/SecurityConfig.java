@@ -38,6 +38,7 @@ public class SecurityConfig {
                         authorizeRequest
                                 .requestMatchers("/api/user/login").permitAll() //유저 로그인
                                 .requestMatchers("/api/user/register").permitAll() //유저 로그인
+                                .requestMatchers("/api/user/findPw").permitAll() //비밀번호 재발급
                                 .requestMatchers("/api/usage").permitAll()
                                 .requestMatchers(/* swagger v2 */
                                         "/v2/api-docs",
