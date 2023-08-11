@@ -7,6 +7,7 @@ import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.dto.CommentRequestDto;
 import com.pippo.ppiyong.service.CommentServiceImpl;
 import com.pippo.ppiyong.service.PostServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class CommentController {
     @Autowired
     CommentServiceImpl commentService;
 
+    @Operation(summary = "댓글 작성", description = "form-data로 요청.\ndata: location, content (application/json)\nfile: 이미지파일")
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/post/{postId}")
     public ResponseEntity<?> createComment(@PathVariable("postId") Long postId,
@@ -48,6 +50,7 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Operation(summary = "댓글 좋아요")
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/comment/{commentId}/like")
     public ResponseEntity<?> likeComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
@@ -65,6 +68,7 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Operation(summary = "댓글 싫어요")
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/comment/{commentId}/hate")
     public ResponseEntity<?> hateComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal CustomUserDetail customUserDetail) {

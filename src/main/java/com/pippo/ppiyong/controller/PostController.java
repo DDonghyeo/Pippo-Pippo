@@ -8,6 +8,7 @@ import com.pippo.ppiyong.dto.CommentResponseDto;
 import com.pippo.ppiyong.dto.PostResponseDto;
 import com.pippo.ppiyong.service.CommentServiceImpl;
 import com.pippo.ppiyong.service.PostServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ public class PostController {
     @Autowired
     CommentServiceImpl commentService;
 
+    @Operation(summary = "게시물 상세 조회")
     @GetMapping("/post/{postId}")
     public ResponseEntity<?> getPost(@PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
         try {
