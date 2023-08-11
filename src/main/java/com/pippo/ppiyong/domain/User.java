@@ -48,7 +48,7 @@ public class User extends BaseTimeEntity {
     }
 
     public User encodePassword(PasswordEncoder passwordEncoder){
-        password = passwordEncoder.encode(password);
+        password = passwordEncoder.encode(this.password);
         return this;
     }
 
@@ -58,6 +58,14 @@ public class User extends BaseTimeEntity {
 
     public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword){
         return passwordEncoder.matches(checkPassword, getPassword());
+    }
+
+    public void updateNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void updateRegion(String region) {
+        this.region = Region.fromString(region);
     }
 
 }

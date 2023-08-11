@@ -28,6 +28,9 @@ public class Post extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     private String title;
 
     private String content;
@@ -43,13 +46,19 @@ public class Post extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    public Post (Type type, String title, String content, Region region, LocalDateTime createDate) {
+    public Post (Type type, String title, String content, Region region) {
         this.type = type;
         this.title = title;
         this.content = content;
         this.region = region;
-        this.setCreatedAt(createDate);
-        this.setModifiedAt(createDate);
+        if(type.equals(Type.HOT) || type.equals(Type.RAIN) || type.equals(Type.WIND) || type.equals(Type.SNOW)) {
+            this.category = Category.WEATHER;
+        } else if(type.equals(Type.EARTHQUAKE)) {
+            this.category = Category.EARTHQUAKE;
+        } else if(type.equals(Type.CIVIL)) {
+            this.category = Category.CIVIL;
+        } else if(type.equals(Type.LOST)) {
+            this.category = Category.LOST;
+        }
     }
-
 }

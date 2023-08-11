@@ -65,14 +65,14 @@ public class CommentServiceImpl implements CommentService {
         try {
             List<CommentLike> commentLikeList = comment.getLikers();
             for(CommentLike commentLike : commentLikeList) {
-                if(commentLike.getUser().equals(user)) {
+                if(commentLike.getUser().getId().equals(user.getId())) {
                     commentLikeRepository.delete(commentLike);
-                    System.out.println(">>>like cancel: " + user.getEmail());
+                    //System.out.println(">>>like cancel: " + user.getEmail());
                     return;
                 }
             }
             commentLikeRepository.save(new CommentLike(comment, user));
-            System.out.println(">>> like: " + user.getEmail());
+            //System.out.println(">>> like: " + user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,14 +83,14 @@ public class CommentServiceImpl implements CommentService {
         try {
             List<CommentHate> commentHateList = comment.getHaters();
             for(CommentHate commentHate : commentHateList) {
-                if(commentHate.getUser().equals(user)) {
+                if(commentHate.getUser().getId().equals(user.getId())) {
                     commentHateRepository.delete(commentHate);
-                    System.out.println(">>>hate cancel: " + user.getEmail());
+                    //System.out.println(">>>hate cancel: " + user.getEmail());
                     return;
                 }
             }
             commentHateRepository.save(new CommentHate(comment, user));
-            System.out.println(">>> hate: " + user.getEmail());
+            //System.out.println(">>> hate: " + user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             List<CommentLike> commentLikeList = commentLikeRepository.findByCommentId(comment.getId());
             for(CommentLike commentLike : commentLikeList) {
-                if(commentLike.getUser().equals(user)) {
+                if (commentLike.getUser().getId().equals(user.getId())) {
                     return true;
                 }
             }
@@ -116,7 +116,7 @@ public class CommentServiceImpl implements CommentService {
         try {
             List<CommentHate> commentHateList = commentHateRepository.findByCommentId(comment.getId());
             for(CommentHate commentHate : commentHateList) {
-                if(commentHate.getUser().equals(user)) {
+                if(commentHate.getUser().getId().equals(user.getId())) {
                     return true;
                 }
             }

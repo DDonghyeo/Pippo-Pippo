@@ -4,6 +4,7 @@ import com.pippo.ppiyong.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -36,10 +37,13 @@ public class SecurityConfig {
                 // 그 외 모든 요청 (any) 에 대해서는 인증 요구
                 .authorizeHttpRequests((authorizeRequest) ->
                         authorizeRequest
-                                .requestMatchers("/**").permitAll() //임시허용
-                                //아래 링크는 모든 통신 허용
-                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/api/user/login").permitAll() //유저 로그인
+                                .requestMatchers("/api/user/register").permitAll() //유저 로그인
+                                .requestMatchers("/api/user/findPw").permitAll() //비밀번호 재발급
                                 .requestMatchers("/api/usage").permitAll()
+                                .requestMatchers("/api/home").permitAll() //메인페이지
+                                .requestMatchers(HttpMethod.GET, "/api/post/*").permitAll() //게시물 상세조회
+                                .requestMatchers("/api/shelter").permitAll() //대피소 조회
                                 .requestMatchers(/* swagger v2 */
                                         "/v2/api-docs",
                                         "/swagger-resources",
@@ -51,10 +55,8 @@ public class SecurityConfig {
                                         /* swagger v3 */
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**").permitAll()
-
                                 //외에 다른 Request는 인증되어야 함
-                                //.anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
 
                 // Rest 방식으로 로그인을 할 것이므로 form 로그인 사용 안함
@@ -76,18 +78,8 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
-            }
-        };
-    }
 
-
-    //인증 작업
+    //인증 작업해줄 Provider
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -98,7 +90,12 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // security 에서 제공하는 암호화 알고리즘
         return new BCryptPasswordEncoder();
     }
-
 }
+
+
+
+
+
