@@ -47,4 +47,9 @@ public enum Region {
     public static Region fromString(String name) {
         return stringToRegionMap.get(name);
     }
+
+    public static Region fromStringInEnglish(String name) {
+        return stringToRegionMap.get(name.toUpperCase());
+    }
+
 }
