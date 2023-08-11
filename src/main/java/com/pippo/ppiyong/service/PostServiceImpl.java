@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
         try {
             List<HomePostResponseDto> postList = new ArrayList<>(postRepository.findByRegion(region).stream().map(HomePostResponseDto::new).toList());
             postList.addAll(postRepository.findByRegion(Region.ALL).stream().map(HomePostResponseDto::new).toList());
-            postList.sort((p1, p2) -> (int) (p1.getId() - p2.getId()));
+            postList.sort((p2, p1) -> (int) (p1.getId() - p2.getId()));
 
             List<HomePostResponseDto> weather = new ArrayList<>();
             List<HomePostResponseDto> earthquake = new ArrayList<>();

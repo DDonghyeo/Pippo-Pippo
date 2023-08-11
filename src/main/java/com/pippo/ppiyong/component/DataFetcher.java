@@ -3,6 +3,8 @@ package com.pippo.ppiyong.component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pippo.ppiyong.domain.message.DisasterMessage;
 import com.pippo.ppiyong.domain.message.DisasterMsgResponse;
+import com.pippo.ppiyong.domain.news.News;
+import com.pippo.ppiyong.service.NewsServiceImpl;
 import com.pippo.ppiyong.service.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +18,9 @@ public class DataFetcher {
 
     @Autowired
     PostServiceImpl postService;
+
+    @Autowired
+    NewsServiceImpl newsService;
 
     @Scheduled(fixedRate = 60000) // 1분마다 실행
     public void fetchData() {
@@ -39,6 +44,17 @@ public class DataFetcher {
                     System.out.println("uploaded new post: " + message.getId());
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Scheduled(cron = "0 0 * * * *")
+    public void fetchNews() {
+        try {
+            List<News> newsList = newsService.searchNews();
+            newsService.deleteAll();
+            newsService.saveAll(newsList);
         } catch (Exception e) {
             e.printStackTrace();
         }
