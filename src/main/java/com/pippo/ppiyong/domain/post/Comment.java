@@ -54,8 +54,5 @@ public class Comment extends BaseTimeEntity {
         this.location = commentRequestDto.getLocation();
         this.user = user;
         this.post = post;
-        LocalDateTime now = LocalDateTime.now();
-        setCreatedAt(now);
-        setModifiedAt(now);
     }
 }

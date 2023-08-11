@@ -17,6 +17,9 @@ public enum ErrorCode {
 
     /* 400 BAD_REQUEST : 잘못된 요청 */
     INVALID_VALUE(BAD_REQUEST, 400, "잘못된 값입니다." ),
+    INVALID_PASSWORD(BAD_REQUEST, 400, "비밀번호가 틀렸습니다." ),
+    USER_DUPLICATION(BAD_REQUEST, 400, "이미 가입한 사용자입니다." ),
+
 
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
