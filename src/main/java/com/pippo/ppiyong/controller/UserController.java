@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = {"http://localhost:8000","http://localhost:81","http://localhost:5500","http://localhost:8080", "http://127.0.0.1:81/"})
 @RequestMapping("/api/user")
 public class UserController {
 
