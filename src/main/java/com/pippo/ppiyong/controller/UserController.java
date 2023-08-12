@@ -54,7 +54,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDto userLoginDto , HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
         customUserDetailsService.login(servletRequest, servletResponse, userLoginDto);
-        return new ResponseEntity<>("요청에 성공했습니다.");
+        return ResponseEntity.ok("요청에 성공했습니다.");
     }
 
     //닉네임 변경
