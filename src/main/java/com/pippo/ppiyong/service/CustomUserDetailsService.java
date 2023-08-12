@@ -69,7 +69,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private Authentication authenticateUser(String email, String password) {
         UserDetails userDetails = loadUserByUsername(email);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, password, new ArrayList<>());
+        log.info("userDetail - Password : " + userDetails.getPassword());
+        log.info("Present - Password : " + password);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, password);
         log.info("name : " + authentication.getName());
 
         try {
