@@ -95,6 +95,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         cookie.setPath("/");
         cookie.setMaxAge(30000 * 60);
         cookie.setSecure(true); //set cookie를 위해서, + sameSite None해줘야함
+        cookie.setDomain("page.ppiyong.shop");
         response.addCookie(cookie);
     }
 
