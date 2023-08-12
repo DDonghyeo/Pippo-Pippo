@@ -33,7 +33,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(CorsConfigurer::disable)
 
                 // 회원가입, 로그인 등 인증이 필요없는 요청에 대해서는 전체허용 (permitAll)
                 // 그 외 모든 요청 (any) 에 대해서는 인증 요구
@@ -106,7 +105,8 @@ public class SecurityConfig {
                         .allowedOrigins("http://localhost:8000","http://localhost:81","http://localhost:5500","http://localhost:8080") // 모든 오리진을 허용합니다.
                         .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메서드를 지정합니다.
                         .allowCredentials(true) // 쿠키를 포함할 경우 true로 설정합니다.
-                        .exposedHeaders("Set-Cookie"); // 노출할 응답 헤더를 지정합니다.
+                        .exposedHeaders("Set-Cookie")
+                        .maxAge(3000); // 노출할 응답 헤더를 지정합니다.
             }
         };
     }
