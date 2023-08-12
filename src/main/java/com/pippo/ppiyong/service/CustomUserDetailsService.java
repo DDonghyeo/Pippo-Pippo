@@ -64,7 +64,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Authentication authentication = authenticateUser(userLoginDto.getEmail(), userLoginDto.getPassword());
         //인증된 객체 저장
         setAuthenticationInContext(authentication);
-//        createSessionAndSetCookie(request, response);
+        createSessionAndSetCookie(request, response);
     }
 
     private Authentication authenticateUser(String email, String password) {
