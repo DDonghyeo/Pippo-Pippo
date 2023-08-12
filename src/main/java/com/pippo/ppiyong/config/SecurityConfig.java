@@ -93,6 +93,17 @@ public class SecurityConfig {
         // security 에서 제공하는 암호화 알고리즘
         return new BCryptPasswordEncoder();
     }
+
+    //CORS 오류
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
+    }
 }
 
 
