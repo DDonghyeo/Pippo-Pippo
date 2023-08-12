@@ -91,7 +91,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext());
 
-        Cookie cookie = new Cookie("JSESSIONID", session.getId());
+        Cookie cookie = new Cookie("JSESSIONIDS", session.getId());
         cookie.setPath("/");
         cookie.setMaxAge(30000 * 60);
         cookie.setSecure(true); //set cookie를 위해서, + sameSite None해줘야함
