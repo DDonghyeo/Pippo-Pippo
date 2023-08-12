@@ -94,6 +94,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         Cookie cookie = new Cookie("JSESSIONID", session.getId());
         cookie.setPath("/");
         cookie.setMaxAge(30000 * 60);
+        cookie.setSecure(false);
+        cookie.setHttpOnly(false);
         response.addCookie(cookie);
     }
 
