@@ -45,6 +45,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/home").permitAll() //메인페이지
                                 .requestMatchers(HttpMethod.GET, "/api/post/*").permitAll() //게시물 상세조회
                                 .requestMatchers("/api/shelter").permitAll() //대피소 조회
+                                .requestMatchers("/api/user/emailCheck").permitAll() //대피소 조회
+                                .requestMatchers("/api/user/verification").permitAll() //대피소 조회
                                 .requestMatchers(/* swagger v2 */
                                         "/v2/api-docs",
                                         "/swagger-resources",
