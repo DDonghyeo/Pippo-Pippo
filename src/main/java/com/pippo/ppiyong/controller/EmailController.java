@@ -26,7 +26,7 @@ public class EmailController {
         }
     }
 
-    @GetMapping("/verification")
+    @PostMapping("/verification")
     @Operation(summary = "이메일 유효성 확인", description = "Request Body : email , verification \n 성공 / 실패는 Response Status로 구분함. 성공했을 경우 :200, 실패했을 경우 : 202")
     public ResponseEntity<?> checkEmailValidation(@RequestBody EmailVerificationDto verificationDto) {
         try {
