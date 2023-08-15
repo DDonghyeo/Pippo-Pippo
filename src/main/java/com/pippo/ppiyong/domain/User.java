@@ -2,7 +2,6 @@ package com.pippo.ppiyong.domain;
 
 import com.pippo.ppiyong.auth.Authority;
 import com.pippo.ppiyong.type.BaseTimeEntity;
-import com.pippo.ppiyong.type.Category;
 import com.pippo.ppiyong.type.Region;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,14 +34,8 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
-
-    @ElementCollection(targetClass = Category.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_sub_categories", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "sub_category")
-    private List<Category> sub_categories;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<SubCategory> subCategories;
 
     public User(String email, String password, String nickName, Region region) {
         this.email = email;
@@ -76,8 +69,14 @@ public class User extends BaseTimeEntity {
         this.region = region;
     }
 
-    public void setSub_categories(List<Category> subCategories) {
-        this.sub_categories = subCategories;
-    }
 
+    public void setSubCategory(List<SubCategory> subCategories) {
+        this.subCategories.clear();
+        if (subCategories != null) {
+            this.subCategories.addAll(subCategories);
+            for (SubCategory subCategory : subCategories) {
+                subCategory.setUser(this);
+            }
+        }
+    }
 }
