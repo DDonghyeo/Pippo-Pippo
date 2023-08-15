@@ -20,7 +20,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -100,12 +103,16 @@ public class SecurityConfig {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        List<String> exposeHeaders = new ArrayList<>();
+        exposeHeaders.add("Set-Cookie");
+
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("https://page.ppiyong.shop");
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8000","http://localhost:81","http://localhost:5500","http://localhost:8080", "http://127.0.0.1:81/", "https://page.ppiyong.shop/"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS", "PUT","DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(Boolean.TRUE);
+        configuration.setExposedHeaders(exposeHeaders);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
