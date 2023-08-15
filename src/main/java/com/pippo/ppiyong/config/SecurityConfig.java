@@ -72,7 +72,7 @@ public class SecurityConfig {
                 // logout url 설정. 인증을 위해 사용하는 쿠키인 JSESSIONID를 삭제하여 로그아웃 처리
                 .logout((configurer) ->
                         configurer
-                                .logoutUrl("/api/users/logout")
+                                .logoutUrl("/api/user/logout")
                                 .deleteCookies("JSESSIONID")
                 )
 

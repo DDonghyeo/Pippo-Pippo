@@ -106,5 +106,11 @@ public class UserController {
         }
     }
 
+    //로그아웃
+    @GetMapping("/logout")
+    @PreAuthorize("hasRole('User')")
+    public ResponseEntity<?> logout() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
