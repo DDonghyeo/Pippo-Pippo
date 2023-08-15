@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CheckListRepository extends JpaRepository<CheckList, Long> {
 
-    List<CheckList> findAllByUser_Id(Long user_id);
+    List<CheckList> findAllByUser_Email(String user_id);
 }
