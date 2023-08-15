@@ -53,8 +53,13 @@ public class DataFetcher {
     public void fetchNews() {
         try {
             List<News> newsList = newsService.searchNews();
-            newsService.deleteAll();
-            newsService.saveAll(newsList);
+            if(newsList != null) {
+                newsService.deleteAll();
+                newsService.saveAll(newsList);
+            } else {
+                System.out.println("news not exists");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
