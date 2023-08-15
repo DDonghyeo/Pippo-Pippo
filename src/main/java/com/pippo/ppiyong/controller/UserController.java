@@ -86,7 +86,7 @@ public class UserController {
 
     //회원정보 조회
     @Operation(summary = "사용자 조회 ", description = "파라미터 X")
-    @PutMapping("")
+    @GetMapping("")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updatePW(@AuthenticationPrincipal CustomUserDetail customUserDetail) {
         return ResponseEntity.ok(userService.getUserInfo(customUserDetail.getUserEmail()));
@@ -109,7 +109,7 @@ public class UserController {
     //로그아웃
     @GetMapping("/logout")
     @PreAuthorize("hasRole('User')")
-    public ResponseEntity<?> logout() {
+    public ResponseEntity<?> logout(@AuthenticationPrincipal CustomUserDetail customUserDetail) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
