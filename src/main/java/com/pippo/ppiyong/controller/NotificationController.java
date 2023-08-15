@@ -3,13 +3,11 @@ package com.pippo.ppiyong.controller;
 import com.pippo.ppiyong.auth.CustomUserDetail;
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Post;
-import com.pippo.ppiyong.dto.CategoryResponseDto;
-import com.pippo.ppiyong.dto.NotificationResponseDto;
-import com.pippo.ppiyong.dto.RegionRequestDto;
-import com.pippo.ppiyong.dto.RegionResponseDto;
+import com.pippo.ppiyong.dto.*;
 import com.pippo.ppiyong.repository.NotificationRepository;
 import com.pippo.ppiyong.repository.UserRepository;
 import com.pippo.ppiyong.service.NotificationService;
+import com.pippo.ppiyong.type.Category;
 import com.pippo.ppiyong.type.Region;
 import com.pippo.ppiyong.type.Type;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,9 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -54,7 +50,15 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        List<NotificationResponseDto> responseDtoList = notificationService.findAllByRegionAndCategory(user);
+        List<NotificationResponseDto> responseDtoList;
+        if (user.getCategory() == null) {
+            // 카테고리가 null이면 지역만 고려하여 알림 정보를 가져옴
+            responseDtoList = notificationService.findAllByRegion(user.getRegion());
+        } else {
+            // 지역과 카테고리 정보 기반으로 알림 정보를 가져옴
+            responseDtoList = notificationService.findAllByRegionAndCategory(user);
+        }
+
         return ResponseEntity.ok(responseDtoList);
     }
 
@@ -116,6 +120,45 @@ public class NotificationController {
         userRepository.save(user);
 
         return ResponseEntity.ok("User's region updated successfully");
+    }
+
+    @Operation(summary = "알림 카테고리 설정", description = "query string을 이용하여 날씨, 민방위만 알림 받기로 설정한 경우 주소 뒤에 ?weather=1&earthquake=0&civil=1&lost=0 형태로 요청")
+    @PutMapping("/notification/category")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> updateCategory(@RequestParam CategoryRequestDto categoryRequestDto, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
+        User user = customUserDetail.getUser();
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        int weather = categoryRequestDto.getWeather();
+        int earthquake = categoryRequestDto.getEarthquake();
+        int civil = categoryRequestDto.getCivil();
+        int lost = categoryRequestDto.getLost();
+
+        List<Category> newSubCategories = new ArrayList<>();
+        if (weather == 1) {
+            newSubCategories.add(Category.WEATHER);
+        }
+        if (earthquake == 1) {
+            newSubCategories.add(Category.EARTHQUAKE);
+        }
+        if (civil == 1) {
+            newSubCategories.add(Category.CIVIL);
+        }
+        if (lost == 1) {
+            newSubCategories.add(Category.LOST);
+        }
+
+        if (newSubCategories.isEmpty()) {
+            user.setSub_categories(null); // Set sub_categories to null if no valid sub-category selected
+        } else {
+            user.setSub_categories(newSubCategories);
+        }
+        userRepository.save(user);
+
+        return ResponseEntity.ok("User's sub-categories updated successfully");
     }
 }
 

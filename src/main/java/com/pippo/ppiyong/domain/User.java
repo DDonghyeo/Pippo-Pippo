@@ -38,6 +38,10 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @ElementCollection(targetClass = Category.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_sub_categories", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "sub_category")
     private List<Category> sub_categories;
 
     public User(String email, String password, String nickName, Region region) {
@@ -71,4 +75,9 @@ public class User extends BaseTimeEntity {
     public void setRegion(Region region) {
         this.region = region;
     }
+
+    public void setSub_categories(List<Category> subCategories) {
+        this.sub_categories = subCategories;
+    }
+
 }
