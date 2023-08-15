@@ -53,7 +53,7 @@ public class DataFetcher {
     public void fetchNews() {
         try {
             List<News> newsList = newsService.searchNews();
-            if(newsList != null) {
+            if(newsList .isEmpty()) {
                 newsService.deleteAll();
                 newsService.saveAll(newsList);
             } else {
