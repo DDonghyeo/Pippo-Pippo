@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@CrossOrigin(origins = "*")
 @RequestMapping("/api/usage")
 class SwaggerRedirector {
     @GetMapping
