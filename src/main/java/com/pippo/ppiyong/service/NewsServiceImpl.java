@@ -68,6 +68,10 @@ public class NewsServiceImpl implements NewsService {
             //newsDataList.addAll(Objects.requireNonNull(searchAndFilter("전쟁")));
             newsDataList.addAll(Objects.requireNonNull(searchAndFilter("미사일")));
 
+            if(newsDataList.isEmpty()) {
+                return null;
+            }
+
             List<News> sortedList = sortByDate(newsDataList);
             if(sortedList != null) {
                 return sortedList.subList(0, 5);
