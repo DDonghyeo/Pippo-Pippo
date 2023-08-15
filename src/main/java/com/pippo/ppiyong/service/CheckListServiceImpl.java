@@ -30,23 +30,21 @@ public class CheckListServiceImpl implements CheckListService{
 
     //체크리스트 조회
     @Override
-    public List<CheckListDto.Response> getCheckList(){
-        //TODO : 유저 정보 가져오기
-        Long user_id = 1L;
-        return getCheckListResponse(checkListRepository.findAllByUser_Id(user_id));
+    public List<CheckListDto.Response> getCheckList(String email){
+        return getCheckListResponse(checkListRepository.findAllByUser_Email(email));
     }
 
     //체크리스트 생성
     @Override
-    public List<CheckListDto.Response> createCheckList(CheckListDto.Request request) {
+    public List<CheckListDto.Response> createCheckList(CheckListDto.Request request, User user) {
         try {
             CheckList checkList = checkListRepository.save(CheckList.builder()
-                    .user(getUser())
+                    .user(user)
                     .title(request.getTitle()).build());
 
             List<Task> tasks = request.getTask().stream().map(taskRequest -> taskRequest.toEntity(checkList)).toList();
             taskRepository.saveAll(tasks);
-            return getCheckList();
+            return getCheckList(user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
             throw new CustomException(ErrorCode.SERVER_ERROR);
@@ -56,11 +54,17 @@ public class CheckListServiceImpl implements CheckListService{
 
     //체크리스트 삭제
     @Override
-    public List<CheckListDto.Response> deleteCheckList(Long checkListId) {
+    public List<CheckListDto.Response> deleteCheckList(Long checkListId, String email) {
         try {
-            checkListRepository.deleteById(checkListId);
-            taskRepository.deleteAllByCheckList_Id(checkListId);
-            return getCheckList();
+            CheckList checkList = checkListRepository.findById(checkListId).orElseThrow(() ->
+                    new CustomException(ErrorCode.NO_CONTENT_FOUND));
+            if (checkList.getUser().getEmail().equals(email)) {
+                checkListRepository.delete(checkList);
+                taskRepository.deleteAllByCheckList_Id(checkListId);
+                return getCheckList(email);
+            } else throw new CustomException(ErrorCode.INVALID_SESSION);
+
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new CustomException(ErrorCode.SERVER_ERROR);
@@ -71,41 +75,48 @@ public class CheckListServiceImpl implements CheckListService{
 
     //체크리스트 수정
     @Override
-    public List<CheckListDto.Response> updateCheckList(Long checkListId, CheckListDto.Request request) {
+    public List<CheckListDto.Response> updateCheckList(Long checkListId, CheckListDto.Request request, String email) {
         CheckList checkList = checkListRepository.findById(checkListId).orElseThrow(
                 () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
         );
 
-        if (!checkList.getTitle().equals(request.getTitle())) {
-           checkList.updateTitle(request.getTitle());
-            checkListRepository.save(checkList);
-        }
-
-        List<CheckListDto.TaskRequest> task_req = request.getTask();
-
-        List<Task> tasks = taskRepository.findAllByCheckList_Id(checkListId).orElseThrow(
-                () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
-        );
-
-        tasks.stream().map(task -> {
-            String content = task_req.get(tasks.indexOf(task)).getContent();
-            if (!task.getContent().equals(content)) {
-                task.updateContent(content);
+        if (checkList.getUser().getEmail().equals(email)) {
+            if (!checkList.getTitle().equals(request.getTitle())) {
+                checkList.updateTitle(request.getTitle());
+                checkListRepository.save(checkList);
             }
-            return task;
-        }).collect(Collectors.toList());
+            List<CheckListDto.TaskRequest> task_req = request.getTask();
 
-        taskRepository.saveAll(tasks);
+            List<Task> tasks = taskRepository.findAllByCheckList_Id(checkListId).orElseThrow(
+                    () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
+            );
 
-        return getCheckList();
+            tasks.stream().map(task -> {
+                String content = task_req.get(tasks.indexOf(task)).getContent();
+                if (!task.getContent().equals(content)) {
+                    task.updateContent(content);
+                }
+                return task;
+            }).collect(Collectors.toList());
+
+            taskRepository.saveAll(tasks);
+
+            return getCheckList(email);
+
+        } else throw new CustomException(ErrorCode.INVALID_SESSION);
 
     }
 
     //작업 삭제
     @Override
-    public List<CheckListDto.Response> deleteTask(Long taskId) {
-        taskRepository.deleteById(taskId);
-        return getCheckList();
+    public List<CheckListDto.Response> deleteTask(Long taskId, String email) {
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new CustomException(ErrorCode.NO_CONTENT_FOUND));
+
+        if (task.getCheckList().getUser().getEmail().equals(email)) {
+            taskRepository.delete(task);
+            return getCheckList(email);
+        } else throw new CustomException(ErrorCode.INVALID_SESSION);
+
     }
 
 
@@ -129,9 +140,4 @@ public class CheckListServiceImpl implements CheckListService{
 
     }
 
-    private User getUser() {
-        return userRepository.findById(1L).orElseThrow(
-                () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
-        );
-    }
 }

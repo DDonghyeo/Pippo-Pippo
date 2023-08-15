@@ -6,7 +6,9 @@ import com.pippo.ppiyong.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Check;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,8 @@ public class CheckListDto {
 
     @Getter
     @Builder
+    @AllArgsConstructor
+    @RequiredArgsConstructor
     public static class TaskRequest{
         String content;
 
