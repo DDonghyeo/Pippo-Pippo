@@ -61,6 +61,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     //헤더에 담긴
     public void login(HttpServletRequest request, HttpServletResponse response,
                       UserLoginDto userLoginDto) {
+        log.info("login password : " + passwordEncoder.encode(userLoginDto.getPassword()));
         Authentication authentication = authenticateUser(userLoginDto.getEmail(), userLoginDto.getPassword());
         //인증된 객체 저장
         setAuthenticationInContext(authentication);
