@@ -1,5 +1,6 @@
 package com.pippo.ppiyong.service;
 
+import com.pippo.ppiyong.domain.SubCategory;
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.dto.CategoryResponseDto;
@@ -40,9 +41,14 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<NotificationResponseDto> findAllByRegionAndCategory(User user) {
         Region userRegion = user.getRegion();
-        Category userCategory = user.getCategory();
+        List<SubCategory> userCategory = user.getSubCategories();
 
-        List<Post> postList = notificationRepository.findAllByRegionAndCategory(userRegion, userCategory);
+        List<Post> postList = new ArrayList<>();
+
+        for (SubCategory subCategory : userCategory) {
+            List<Post> postsForCategory = notificationRepository.findAllByRegionAndCategory(userRegion, subCategory.getCategory());
+            postList.addAll(postsForCategory);
+        }
 
         return postList.stream().map(NotificationResponseDto::new).collect(Collectors.toList());
     }
@@ -73,14 +79,34 @@ public class NotificationServiceImpl implements NotificationService {
         if (user != null && user.getRegion() != null) {
             return new RegionResponseDto(user.getRegion());
         }
-        return null; // 또는 예외 처리 등을 수행할 수 있습니다.
+        return null;
     }
 
     @Override
     public CategoryResponseDto getUserCategoryByEmail(String email) {
         User user = userRepository.findByEmail(email).orElse(null);
-        if (user != null && user.getCategory() != null) {
-            return new CategoryResponseDto(user.getCategory());
+        if (user != null && user.getSubCategories() != null) {
+            List<SubCategory> subCategories = user.getSubCategories();
+            int weather = 0;
+            int earthquake = 0;
+            int civil = 0;
+            int lost = 0;
+            for (SubCategory subCategory : subCategories) {
+                if (subCategory.getCategory().equals(Category.WEATHER)) {
+                    weather = 1;
+                }
+                if (subCategory.getCategory().equals(Category.EARTHQUAKE)) {
+                    earthquake = 1;
+                }
+                if (subCategory.getCategory().equals(Category.CIVIL)) {
+                    civil = 1;
+                }
+                if (subCategory.getCategory().equals(Category.LOST)) {
+                    lost = 1;
+                }
+            }
+
+            return  new CategoryResponseDto(weather, earthquake, civil, lost);
         }
 
         return null;
@@ -90,6 +116,28 @@ public class NotificationServiceImpl implements NotificationService {
     public void updateUserRegion(User user, Region region) {
         user.updateRegion(String.valueOf(region));
         userRepository.save(user);
+    }
+
+    @Override
+    public List<NotificationResponseDto> findAllByRegionAndSingleCategory(Region region, Category category) {
+        List<Post> posts = notificationRepository.findAllByRegionAndCategory(region, category);
+        return posts.stream()
+                .map(NotificationResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<NotificationResponseDto> findAllByRegionAndCategories(Region region, List<Category> categories) {
+        List<Post> allPosts = new ArrayList<>();
+
+        for (Category category : categories) {
+            List<Post> posts = notificationRepository.findAllByRegionAndCategory(region, category);
+            allPosts.addAll(posts);
+        }
+
+        return allPosts.stream()
+                .map(NotificationResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 }

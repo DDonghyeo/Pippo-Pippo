@@ -62,4 +62,14 @@ public class UserService {
                 .build();
     }
 
+    public User getUserWithSubCategories(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            user.getSubCategories().size(); // Initialize the collection
+        }
+
+        return user;
+    }
+
 }

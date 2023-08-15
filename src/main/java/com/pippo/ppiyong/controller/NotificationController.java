@@ -1,16 +1,19 @@
 package com.pippo.ppiyong.controller;
 
 import com.pippo.ppiyong.auth.CustomUserDetail;
+import com.pippo.ppiyong.domain.SubCategory;
 import com.pippo.ppiyong.domain.User;
 import com.pippo.ppiyong.domain.post.Post;
 import com.pippo.ppiyong.dto.*;
 import com.pippo.ppiyong.repository.NotificationRepository;
+import com.pippo.ppiyong.repository.SubCategoryRepository;
 import com.pippo.ppiyong.repository.UserRepository;
 import com.pippo.ppiyong.service.NotificationService;
 import com.pippo.ppiyong.type.Category;
 import com.pippo.ppiyong.type.Region;
 import com.pippo.ppiyong.type.Type;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Transactional
 @RestController
 @RequestMapping("/api")
 public class NotificationController {
@@ -31,6 +35,9 @@ public class NotificationController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SubCategoryRepository subCategoryRepository;
 
     @Autowired
     public NotificationController(NotificationService notificationService) {
@@ -50,16 +57,26 @@ public class NotificationController {
         }
 
         List<NotificationResponseDto> responseDtoList;
-        if (user.getCategory() == null) {
-            // 카테고리가 null이면 지역만 고려하여 알림 정보를 가져옴
+        if (user.getSubCategories() == null || user.getSubCategories().isEmpty()) {
+            // Category가 없거나 비어있는 경우
             responseDtoList = notificationService.findAllByRegion(user.getRegion());
         } else {
-            // 지역과 카테고리 정보 기반으로 알림 정보를 가져옴
-            responseDtoList = notificationService.findAllByRegionAndCategory(user);
+            List<Category> categories = user.getSubCategories().stream()
+                    .map(SubCategory::getCategory)
+                    .collect(Collectors.toList());
+
+            if (categories.size() == 1) {
+                // Category가 한 개인 경우
+                responseDtoList = notificationService.findAllByRegionAndSingleCategory(user.getRegion(), categories.get(0));
+            } else {
+                // Category가 여러 개인 경우
+                responseDtoList = notificationService.findAllByRegionAndCategories(user.getRegion(), categories);
+            }
         }
 
         return ResponseEntity.ok(responseDtoList);
     }
+
 
 
     // 알림 지역 조회
@@ -108,7 +125,6 @@ public class NotificationController {
 
         String requestedRegionName = regionRequestDto.getRegion();
 
-        // Convert the English region name to Region enum using fromStringInEnglish
         Region requestedRegion = Region.fromStringInEnglish(requestedRegionName);
 
         if (requestedRegion == null) {
@@ -124,38 +140,45 @@ public class NotificationController {
     @Operation(summary = "알림 카테고리 설정", description = "query string을 이용하여 날씨, 민방위만 알림 받기로 설정한 경우 주소 뒤에 ?weather=1&earthquake=0&civil=1&lost=0 형태로 요청")
     @PutMapping("/notification/category")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> updateCategory(@RequestParam CategoryRequestDto categoryRequestDto, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
+    public ResponseEntity<String> updateCategory(@ModelAttribute CategoryRequestDto categoryRequestDto, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
         User user = customUserDetail.getUser();
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
-        int weather = categoryRequestDto.getWeather();
-        int earthquake = categoryRequestDto.getEarthquake();
-        int civil = categoryRequestDto.getCivil();
-        int lost = categoryRequestDto.getLost();
-
-        List<Category> newSubCategories = new ArrayList<>();
-        if (weather == 1) {
-            newSubCategories.add(Category.WEATHER);
-        }
-        if (earthquake == 1) {
-            newSubCategories.add(Category.EARTHQUAKE);
-        }
-        if (civil == 1) {
-            newSubCategories.add(Category.CIVIL);
-        }
-        if (lost == 1) {
-            newSubCategories.add(Category.LOST);
+        List<SubCategory> subCategories = user.getSubCategories();
+        if (subCategories == null) {
+            subCategories = new ArrayList<>(); // Create a new list if it's null
+            user.setSubCategory(subCategories);
         }
 
-        if (newSubCategories.isEmpty()) {
-            user.setSub_categories(null); // Set sub_categories to null if no valid sub-category selected
-        } else {
-            user.setSub_categories(newSubCategories);
+        subCategoryRepository.deleteAllByUser(user);
+        
+        if(categoryRequestDto.isWeather()) {
+            SubCategory subCategory = new SubCategory();
+            subCategory.setCategory(Category.WEATHER);
+            subCategory.setUser(user);
+            subCategoryRepository.save(subCategory);
         }
-        userRepository.save(user);
+        if(categoryRequestDto.isEarthquake()) {
+            SubCategory subCategory = new SubCategory();
+            subCategory.setCategory(Category.EARTHQUAKE);
+            subCategory.setUser(user);
+            subCategoryRepository.save(subCategory);
+        }
+        if(categoryRequestDto.isLost()) {
+            SubCategory subCategory = new SubCategory();
+            subCategory.setCategory(Category.LOST);
+            subCategory.setUser(user);
+            subCategoryRepository.save(subCategory);
+        }
+        if(categoryRequestDto.isCivil()) {
+            SubCategory subCategory = new SubCategory();
+            subCategory.setCategory(Category.CIVIL);
+            subCategory.setUser(user);
+            subCategoryRepository.save(subCategory);
+        }
 
         return ResponseEntity.ok("User's sub-categories updated successfully");
     }

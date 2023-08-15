@@ -11,10 +11,10 @@ import java.util.Map;
 @Getter
 @Setter
 public class CategoryRequestDto {
-    private int weather;
-    private int earthquake;
-    private int civil;
-    private int lost;
+    private boolean weather;
+    private boolean earthquake;
+    private boolean civil;
+    private boolean lost;
 }
 
 
