@@ -47,6 +47,7 @@ public class UserService {
 
     //비밀번호 변경
     public void updatePaswword(String email, UpdatePasswordDto updatePasswordDto) {
+        log.info("new password : " + passwordEncoder.encode(updatePasswordDto.getPassword()));
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         user.updatePassword(passwordEncoder, updatePasswordDto.getPassword());
         userRepository.save(user);
