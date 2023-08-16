@@ -107,6 +107,7 @@ public class CheckListServiceImpl implements CheckListService{
                 int size = request.getTask().size() - tasks.size();
                 for (int i = 0; i < size; i++) {
                     taskRepository.save(Task.builder()
+                                    .checkList(checkList)
                             .content(request.getTask().get(tasks.size() + i).getContent())
                             .isComplete(false)
                             .build()
