@@ -103,6 +103,17 @@ public class CheckListServiceImpl implements CheckListService{
 
             taskRepository.saveAll(tasks);
 
+            if (tasks.size() < request.getTask().size()) {
+                int size = request.getTask().size() - tasks.size();
+                for (int i = 0; i < size; i++) {
+                    taskRepository.save(Task.builder()
+                            .content(request.getTask().get(tasks.size() + i).getContent())
+                            .isComplete(false)
+                            .build()
+                    );
+                }
+            }
+
             return getCheckList(email);
 
         } else throw new CustomException(ErrorCode.INVALID_SESSION);
