@@ -8,6 +8,7 @@ import com.pippo.ppiyong.dto.UserLoginDto;
 import com.pippo.ppiyong.exception.CustomException;
 import com.pippo.ppiyong.exception.ErrorCode;
 import com.pippo.ppiyong.repository.UserRepository;
+import com.pippo.ppiyong.type.Region;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class UserService {
         log.info("region from service : " +  region);
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         log.info("origin :" + user.getRegion().toString());
-        user.updateRegion(region);
+        user.setRegion(Region.fromStringInEnglish(region));
         log.info("changed :" + user.getRegion().toString());
         userRepository.save(user);
     }
