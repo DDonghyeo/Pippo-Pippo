@@ -11,6 +11,7 @@ import com.pippo.ppiyong.repository.TaskRepository;
 import com.pippo.ppiyong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,13 +55,14 @@ public class CheckListServiceImpl implements CheckListService{
 
     //체크리스트 삭제
     @Override
+    @Transactional
     public List<CheckListDto.Response> deleteCheckList(Long checkListId, String email) {
         try {
             CheckList checkList = checkListRepository.findById(checkListId).orElseThrow(() ->
                     new CustomException(ErrorCode.NO_CONTENT_FOUND));
             if (checkList.getUser().getEmail().equals(email)) {
-                checkListRepository.delete(checkList);
                 taskRepository.deleteAllByCheckList_Id(checkListId);
+                checkListRepository.delete(checkList);
                 return getCheckList(email);
             } else throw new CustomException(ErrorCode.INVALID_SESSION);
 
