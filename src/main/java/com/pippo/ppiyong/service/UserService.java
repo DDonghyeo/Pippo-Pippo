@@ -41,11 +41,8 @@ public class UserService {
     //지역 변경
     //닉네임 변경
     public void updateRegion(String email, String region) {
-        log.info("region from service : " +  region);
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        log.info("origin :" + user.getRegion().toString());
-        user.setRegion(Region.fromStringInEnglish(region));
-        log.info("changed :" + user.getRegion().toString());
+        user.setRegion(Region.fromStringToRegion(region));
         userRepository.save(user);
     }
 

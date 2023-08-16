@@ -52,4 +52,7 @@ public enum Region {
         return stringToRegionMap.get(name.toUpperCase());
     }
 
+    public static Region fromStringToRegion(String name) {
+        return Region.valueOf(name);
+    }
 }
