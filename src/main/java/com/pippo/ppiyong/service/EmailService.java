@@ -147,7 +147,7 @@ public class EmailService {
 
     public void sendMessage(String to)throws Exception {
         // TODO Auto-generated method stub
-        MimeMessage message = createPasswordMessage(to);
+        MimeMessage message = createMessage(to);
         try{//예외처리
             emailSender.send(message);
             //TODO : 비밀번호 바꾸기 (DB)
@@ -159,7 +159,7 @@ public class EmailService {
 
     public void sendMessageForPassword(String to)throws Exception {
         // TODO Auto-generated method stub
-        MimeMessage message = createMessage(to);
+        MimeMessage message = createPasswordMessage(to);
         try{//예외처리
             emailSender.send(message);
         }catch(MailException es){
