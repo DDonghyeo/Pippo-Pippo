@@ -62,7 +62,7 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateNickName(@AuthenticationPrincipal CustomUserDetail customUserDetail, @RequestParam("nickName") String nickName) {
         userService.updateNickName(customUserDetail.getUserEmail(), nickName);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok("닉네임 변경에 성공했습니다.");
     }
 
     //지역 변경
