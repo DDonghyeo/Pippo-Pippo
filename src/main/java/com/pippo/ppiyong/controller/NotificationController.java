@@ -154,7 +154,7 @@ public class NotificationController {
         }
 
         subCategoryRepository.deleteAllByUser(user);
-        
+
         if(categoryRequestDto.isWeather()) {
             SubCategory subCategory = new SubCategory();
             subCategory.setCategory(Category.WEATHER);
