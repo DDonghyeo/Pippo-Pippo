@@ -95,8 +95,12 @@ public class CheckListServiceImpl implements CheckListService{
 
             tasks.stream().map(task -> {
                 String content = task_req.get(tasks.indexOf(task)).getContent();
+                boolean isComplete = task_req.get(tasks.indexOf(task)).isComplete();
                 if (!task.getContent().equals(content)) {
                     task.updateContent(content);
+                }
+                if (task.isComplete() != isComplete) {
+                    task.updateComplete(isComplete);
                 }
                 return task;
             }).collect(Collectors.toList());
