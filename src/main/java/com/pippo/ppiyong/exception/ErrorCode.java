@@ -20,6 +20,8 @@ public enum ErrorCode {
     INVALID_PASSWORD(BAD_REQUEST, 400, "비밀번호가 틀렸습니다." ),
     USER_DUPLICATION(BAD_REQUEST, 400, "이미 가입한 사용자입니다." ),
 
+    EPW_EXP_EXPIRED(BAD_REQUEST, 400, "유효기간이 지났습니다." ),
+
 
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */

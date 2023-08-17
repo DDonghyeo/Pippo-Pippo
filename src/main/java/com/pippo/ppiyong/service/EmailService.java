@@ -183,15 +183,16 @@ public class EmailService {
     }
 
     public boolean ValidationCheck(String email, String code){
-        Optional<EmailValidation> emailValidation = emailRepository.findById(email);
+        EmailValidation emailValidation = emailRepository.findById(email).orElseThrow( () -> new CustomException(ErrorCode.INVALID_VALUE));
         Date now = new Date();
-        log.info("exp: "+ emailValidation.get());
         //expiration Check
-        if (now.after(emailValidation.get().getExp())) {
-            return false;
+        if (now.after(emailValidation.getExp())) {
+            throw new CustomException(ErrorCode.EPW_EXP_EXPIRED);
         }
         //Pw Check
-        return emailValidation.map(validation -> (validation.getEPw().equals(code))).orElse(false);
+        if (emailValidation.getEPw().equals(code)) {
+            return true;
+        } else throw new CustomException(ErrorCode.INVALID_PASSWORD);
     }
 
     private void insertPw(String email, String pw) {

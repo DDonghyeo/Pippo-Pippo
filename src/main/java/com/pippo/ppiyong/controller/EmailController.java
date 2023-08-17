@@ -1,6 +1,8 @@
 package com.pippo.ppiyong.controller;
 
 import com.pippo.ppiyong.dto.EmailVerificationDto;
+import com.pippo.ppiyong.exception.CustomException;
+import com.pippo.ppiyong.exception.ErrorCode;
 import com.pippo.ppiyong.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class EmailController {
         try {
             if (emailService.ValidationCheck(verificationDto.getEmail(), verificationDto.getVerification())){
                 return new ResponseEntity<>(HttpStatus.OK); //유효성 검사 통과
-            } else return new ResponseEntity<>(HttpStatus.ACCEPTED); //유효성 검사 실패
+            } else throw new CustomException(ErrorCode.INVALID_PASSWORD); //유효성 검사 실패
         }catch (Exception e){
             throw new RuntimeException(e);
         }
