@@ -198,5 +198,6 @@ public class EmailService {
     private void insertPw(String email, String pw) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
         user.updatePassword(passwordEncoder, pw);
+        userRepository.save(user);
     }
 }

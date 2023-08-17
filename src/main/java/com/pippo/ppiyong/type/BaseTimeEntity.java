@@ -13,10 +13,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Getter @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)  // Auditing 기능 포함
-public abstract class BaseTimeEntity {
+public class BaseTimeEntity {
 
     @CreatedDate
     @Column(updatable = false ,nullable = false)
