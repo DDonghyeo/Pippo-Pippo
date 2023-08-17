@@ -50,7 +50,8 @@ public class UserService {
     public void updatePaswword(String email, UpdatePasswordDto updatePasswordDto) {
         log.info("new password : " + passwordEncoder.encode(updatePasswordDto.getPassword()));
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        user.updatePassword(passwordEncoder, updatePasswordDto.getPassword());
+        user.updatePassword(passwordEncoder.encode(updatePasswordDto.getPassword()));
+        log.info("updated password : " + user.getPassword());
         userRepository.save(user);
     }
 
