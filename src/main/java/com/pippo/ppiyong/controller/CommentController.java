@@ -57,7 +57,12 @@ public class CommentController {
             User user = customUserDetail.getUser();
             Optional<Comment> commentOptional = commentService.findById(commentId);
             if(commentOptional.isPresent()) {
-                commentService.updateLike(commentOptional.get(), user);
+                Comment comment = commentOptional.get();
+                if (commentService.isHate(comment, user)) {
+                    return ResponseEntity.ok().body("{\"message\": \"싫어요 한 댓글입니다.\"}");
+                }
+
+                commentService.updateLike(comment, user);
                 return ResponseEntity.ok().body("{\"message\": \"요청에 성공했습니다.\"}");
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -75,6 +80,11 @@ public class CommentController {
             User user = customUserDetail.getUser();
             Optional<Comment> commentOptional = commentService.findById(commentId);
             if(commentOptional.isPresent()) {
+                Comment comment = commentOptional.get();
+                if (commentService.isLike(comment, user)) {
+                    return ResponseEntity.ok().body("{\"message\": \"좋아요 한 댓글입니다.\"}");
+                }
+
                 commentService.updateHate(commentOptional.get(), user);
                 return ResponseEntity.ok().body("{\"message\": \"요청에 성공했습니다.\"}");
             }
