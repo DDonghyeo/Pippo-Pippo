@@ -63,10 +63,8 @@ public class CommentController {
             Optional<Comment> commentOptional = commentService.findById(commentId);
             if(commentOptional.isPresent()) {
                 Comment comment = commentOptional.get();
-                System.out.println("commentId: " + comment.getId() + " userEmail: " + user.getEmail() + " ishate: " + commentService.isHate(comment, user));
                 if (commentService.isHate(comment, user)) {
                     commentService.updateHate(comment, user);
-                    System.out.println("hate cancel");
                 }
 
                 commentService.updateLike(comment, user);
@@ -88,10 +86,8 @@ public class CommentController {
             Optional<Comment> commentOptional = commentService.findById(commentId);
             if(commentOptional.isPresent()) {
                 Comment comment = commentOptional.get();
-                System.out.println("commentId: " + comment.getId() + " userEmail: " + user.getEmail() + " islike: " + commentService.isLike(comment, user));
                 if (commentService.isLike(comment, user)) {
                     commentService.updateLike(comment, user);
-                    System.out.println("like cancel");
                 }
 
                 commentService.updateHate(comment, user);

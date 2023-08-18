@@ -70,12 +70,10 @@ public class CommentServiceImpl implements CommentService {
             for(CommentLike commentLike : commentLikeList) {
                 if(commentLike.getUser().getId().equals(user.getId())) {
                     commentLikeRepository.delete(commentLike);
-                    //System.out.println(">>>like cancel: " + user.getEmail());
                     return;
                 }
             }
             commentLikeRepository.save(new CommentLike(comment, user));
-            //System.out.println(">>> like: " + user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,12 +86,10 @@ public class CommentServiceImpl implements CommentService {
             for(CommentHate commentHate : commentHateList) {
                 if(commentHate.getUser().getId().equals(user.getId())) {
                     commentHateRepository.delete(commentHate);
-                    //System.out.println(">>>hate cancel: " + user.getEmail());
                     return;
                 }
             }
             commentHateRepository.save(new CommentHate(comment, user));
-            //System.out.println(">>> hate: " + user.getEmail());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,21 +98,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean isLike(Comment comment, User user) {
         try {
-//            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(comment.getId(), user.getId());
-//            if(commentLike.isPresent()) {
-//                return true;
-//            }
-//            List<CommentLike> commentLikeList = commentLikeRepository.findByCommentId(comment.getId());
-//            for(CommentLike commentLike : commentLikeList) {
-//                if (commentLike.getUser().getId().equals(user.getId())) {
-//                    return true;
-//                }
-//            }
-            List<CommentLike> commentLikeList = comment.getLikers();
-            for(CommentLike commentLike : commentLikeList) {
-                if(commentLike.getUser().getId().equals(user.getId())) {
-                    return true;
-                }
+            Optional<CommentLike> commentLike = commentLikeRepository.findByCommentIdAndUserId(comment.getId(), user.getId());
+            if(commentLike.isPresent()) {
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,21 +111,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean isHate(Comment comment, User user) {
         try {
-//            Optional<CommentHate> commentHate = commentHateRepository.findByCommentIdAndUserId(comment.getId(), user.getId());
-//            if(commentHate.isPresent()) {
-//                return true;
-//            }
-//            List<CommentHate> commentHateList = commentHateRepository.findByCommentId(comment.getId());
-//            for(CommentHate commentHate : commentHateList) {
-//                if(commentHate.getUser().getId().equals(user.getId())) {
-//                    return true;
-//                }
-//            }
-            List<CommentHate> commentHateList = comment.getHaters();
-            for(CommentHate commentHate : commentHateList) {
-                if(commentHate.getUser().getId().equals(user.getId())) {
-                    return true;
-                }
+            Optional<CommentHate> commentHate = commentHateRepository.findByCommentIdAndUserId(comment.getId(), user.getId());
+            if(commentHate.isPresent()) {
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();

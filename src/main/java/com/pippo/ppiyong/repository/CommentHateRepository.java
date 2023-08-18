@@ -11,7 +11,5 @@ import java.util.Optional;
 @Repository
 public interface CommentHateRepository extends JpaRepository<CommentHate, Long> {
 
-    //List<CommentHate> findByCommentId(Long commentId);
-
     Optional<CommentHate> findByCommentIdAndUserId(Long commentId, Long userId);
 }
