@@ -8,6 +8,7 @@ import com.pippo.ppiyong.dto.CommentRequestDto;
 import com.pippo.ppiyong.service.CommentServiceImpl;
 import com.pippo.ppiyong.service.PostServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
+@Slf4j
 @Transactional
 @RestController
 @RequestMapping("/api")
@@ -55,6 +57,7 @@ public class CommentController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/comment/{commentId}/like")
     public ResponseEntity<?> likeComment(@PathVariable("commentId") Long commentId, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
+        log.info("Comment Controller Access");
         try {
             User user = customUserDetail.getUser();
             Optional<Comment> commentOptional = commentService.findById(commentId);
