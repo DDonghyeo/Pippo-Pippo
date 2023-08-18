@@ -62,6 +62,7 @@ public class CommentController {
                 Comment comment = commentOptional.get();
                 if (commentService.isHate(comment, user)) {
                     commentService.updateHate(comment, user);
+                    System.out.println("hate cancel");
                 }
 
                 commentService.updateLike(comment, user);
@@ -85,6 +86,7 @@ public class CommentController {
                 Comment comment = commentOptional.get();
                 if (commentService.isLike(comment, user)) {
                     commentService.updateLike(comment, user);
+                    System.out.println("like cancel");
                 }
 
                 commentService.updateHate(comment, user);
