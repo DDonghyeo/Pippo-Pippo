@@ -35,6 +35,8 @@ public class CheckListDto {
     public static class TaskRequest{
         String content;
 
+        boolean complete;
+
         public Task toEntity(CheckList checkList){
             return Task.builder()
                     .content(content)

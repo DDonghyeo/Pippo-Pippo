@@ -31,4 +31,8 @@ public class Task {
         this.content = content;
     }
 
+    public void updateComplete(boolean isComplete) {
+        this.isComplete = isComplete;
+    }
+
 }

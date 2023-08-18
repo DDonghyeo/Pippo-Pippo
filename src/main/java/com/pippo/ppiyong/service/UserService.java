@@ -8,6 +8,7 @@ import com.pippo.ppiyong.dto.UserLoginDto;
 import com.pippo.ppiyong.exception.CustomException;
 import com.pippo.ppiyong.exception.ErrorCode;
 import com.pippo.ppiyong.repository.UserRepository;
+import com.pippo.ppiyong.type.Region;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class UserService {
     //닉네임 변경
     public void updateRegion(String email, String region) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        user.updateRegion(region);
+        user.setRegion(Region.fromStringToRegion(region));
         userRepository.save(user);
     }
 
@@ -49,7 +50,8 @@ public class UserService {
     public void updatePaswword(String email, UpdatePasswordDto updatePasswordDto) {
         log.info("new password : " + passwordEncoder.encode(updatePasswordDto.getPassword()));
         User user = userRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        user.updatePassword(passwordEncoder, updatePasswordDto.getPassword());
+        user.updatePassword(passwordEncoder.encode(updatePasswordDto.getPassword()));
+        log.info("updated password : " + user.getPassword());
         userRepository.save(user);
     }
 
