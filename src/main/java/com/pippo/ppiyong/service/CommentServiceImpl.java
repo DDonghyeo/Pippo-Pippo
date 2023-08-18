@@ -9,6 +9,7 @@ import com.pippo.ppiyong.dto.CommentRequestDto;
 import com.pippo.ppiyong.repository.CommentHateRepository;
 import com.pippo.ppiyong.repository.CommentLikeRepository;
 import com.pippo.ppiyong.repository.CommentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Slf4j
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -62,6 +64,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void updateLike(Comment comment, User user) {
+        log.info("update Like Service Started");
         try {
             List<CommentLike> commentLikeList = comment.getLikers();
             for(CommentLike commentLike : commentLikeList) {
