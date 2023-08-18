@@ -42,6 +42,7 @@ jobs:
       run: ./gradlew clean build -x test
       
     #------------------- Docker --------------------
+
     
     # Docker Image Build
     - name: Docker Image Build
@@ -73,4 +74,6 @@ jobs:
           sudo docker stop ${{ secrets.DOCKERHUB_IMAGENAME }}
           sudo docker rm ${{ secrets.DOCKERHUB_IMAGENAME }}
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
-          sudo docker run -it -d -p 443:443 --name ${{ secrets.DOCKERHUB_IMAGENAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
+          sudo docker run -it -d -p 443:443 --name ${{ secrets.DOCKERHUB_IMAGENAME }} \
+          -e "TZ=Asia/Seoul" \ # 환경 변수 TZ를 설정하여 시간대를 KST로 변경
+          ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGENAME }}
